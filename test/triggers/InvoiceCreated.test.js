@@ -1,0 +1,91 @@
+/* globals describe, expect, test */
+
+const zapier = require('zapier-platform-core');
+
+// createAppTester() makes it easier to test your app. It takes your raw app
+// definition, and returns a function that will test you app.
+const App = require('../../index');
+const appTester = zapier.createAppTester(App);
+
+// Inject the vars from the .env file to process.env. Do this if you have a .env
+// file.
+zapier.tools.env.inject();
+
+describe('triggers', () => {
+    test(App.triggers.InvoiceCreated.key + ' webhook', async () => {
+
+        const invoiceId = process.env.INVOICE_ID;
+
+        const bundle = {
+            authData: {
+                server_url: process.env.SERVER_URL,
+                api_key: process.env.API_KEY
+            },
+            subscribeData: {
+                secret: '5TjrCfkTgfjY4rJj85bTJj'
+            },
+            rawRequest: {
+                headers: {
+                    'Http-Btcpay-Sig': 'sha256=4ec27a6ca16dbc7b8c7ddfb5654b1f8dbf8c69a439e970fd2bfac6e19713f211'
+                },
+                content: '{\n' +
+                    '  "deliveryId": "PENf2czGBzTepjzSJdt6Nz",\n' +
+                    '  "webhookId": "6KQ4EmzqKowRgyBL65TwJg",\n' +
+                    '  "originalDeliveryId": "PENf2czGBzTepjzSJdt6Nz",\n' +
+                    '  "isRedelivery": false,\n' +
+                    '  "type": "InvoiceCreated",\n' +
+                    '  "timestamp": 1623954207,\n' +
+                    '  "storeId": "Hf9GvFK2dHJehm9J8A6kYfbc1ruc5jEZBKEr9r7jsrLo",\n' +
+                    '  "invoiceId": "CQZj4Qbm475EJQ5HsWeAbd"\n' +
+                    '}' // Hard coded because it is used to calculate the "BTCPay-Sig"
+            },
+            cleanedRequest: {
+                invoiceId: invoiceId,
+            },
+            inputData: {
+                store_id: process.env.STORE_ID
+            },
+        };
+
+        const results = await appTester(
+            App.triggers.InvoiceCreated.operation.perform,
+            bundle
+        );
+
+        expect(results.length).toBe(1);
+        const invoice = results[0];
+        expect(invoice.id).toBe(invoiceId);
+        expect(invoice.storeId).toBe(process.env.STORE_ID);
+        expect(invoice.amount).toBeGreaterThan(0);
+        expect(invoice.checkoutLink).toBeDefined();
+    });
+
+    test(App.triggers.InvoiceCreated.key + ' list sample data', async () => {
+
+        const z = {};
+
+        const bundle = {
+            authData: {
+                server_url: process.env.SERVER_URL,
+                store_id: process.env.STORE_ID,
+                api_key: process.env.API_KEY
+            },
+            rawRequest: {},
+            cleanedRequest: {},
+            inputData: {
+                store_id: process.env.STORE_ID
+            },
+        };
+
+        const results = await appTester(
+            App.triggers.InvoiceCreated.operation.performList,
+            bundle
+        );
+
+        expect(results.length).toBeGreaterThan(1);
+        const invoice = results[0];
+
+        expect(invoice.amount).toBeGreaterThan(0);
+        expect(invoice.checkoutLink).toBeDefined();
+    });
+});

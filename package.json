@@ -1,0 +1,25 @@
+{
+  "name": "btc-pay-server",
+  "version": "1.0.1",
+  "description": "Start Accepting Bitcoin Payments With 0% Fees & No Third-party",
+  "main": "index.js",
+  "scripts": {
+    "test-old": "mocha --recursive -t 10000",
+    "test": "jest"
+  },
+  "engines": {
+    "node": ">=v14",
+    "npm": ">=5.6.0"
+  },
+  "dependencies": {
+    "zapier-platform-core": "11.0.1"
+  },
+  "devDependencies": {
+    "jest": "^27.0.4",
+    "should": "^13.2.0"
+  },
+  "private": true,
+  "zapier": {
+    "convertedByCLIVersion": "11.0.1"
+  }
+}
