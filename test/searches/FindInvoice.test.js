@@ -40,5 +40,13 @@ describe('searches.FindInvoice', () => {
     const results = await appTester(App.searches.FindInvoice.operation.perform, bundle);
 
     expect(results).toBeDefined();
+    expect(results.length).toBe(1);
+
+    const invoice = results[0];
+
+    expect(invoice.id).toBeDefined();
+    expect(invoice.storeId).toBe(process.env.STORE_ID);
+    expect(invoice.amount).toBeGreaterThan(0);
+    expect(invoice.checkoutLink).toBeDefined();
   });
 });
