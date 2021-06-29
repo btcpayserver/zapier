@@ -2,6 +2,7 @@ const Util = require('../common/functions');
 
 module.exports = {
     noun: 'Store',
+
     getById: async function (z, bundle, storeId) {
         const options = {
             url: bundle.authData.server_url + '/api/v1/stores/' + storeId,
@@ -63,25 +64,29 @@ module.exports = {
         {key: 'name', label: 'Store Name', type: 'string'}
     ],
     // sample: {
-    //     "id": "VDdmfYJzJm9VtqW8hqhypF",
-    //     "checkoutLink": ":censored:25:c3b580afa6:/i/VDdmfYJzJm9VtqW8hqhypF",
-    //     "status": "Expired",
-    //     "additionalStatus": "None",
-    //     "createdTime": "2021-07-08T12:17:24.000Z",
-    //     "expirationTime": "2021-07-08T12:32:24.000Z",
-    //     "monitoringExpiration": "2021-07-08T13:17:24.000Z",
-    //     "amount": 6.15,
-    //     "currency": "EUR",
-    //     "metadata": {},
-    //     "checkout": {
-    //         "speedPolicy": "MediumSpeed",
-    //         "paymentMethods": ["BTC", "BTC-LightningNetwork"],
-    //         "expirationMinutes": 15,
-    //         "monitoringMinutes": 60,
-    //         "paymentTolerance": 0.0,
-    //         "redirectURL": null,
-    //         "redirectAutomatically": false,
-    //         "defaultLanguage": null
-    //     }
+    //   "id": "Hf9GvFK2dHJehm9J8A6kYfbc1ruc5jEZBKEr9r7jsrLo",
+    //   "name": "Storefront",
+    //   "website": "storefront.be",
+    //   "invoiceExpiration": 900,
+    //   "monitoringExpiration": 3600,
+    //   "speedPolicy": "MediumSpeed",
+    //   "lightningDescriptionTemplate": "Paid to {StoreName} (Order ID: {OrderId})",
+    //   "paymentTolerance": 0,
+    //   "anyoneCanCreateInvoice": false,
+    //   "requiresRefundEmail": true,
+    //   "lightningAmountInSatoshi": false,
+    //   "lightningPrivateRouteHints": false,
+    //   "onChainWithLnInvoiceFallback": false,
+    //   "lazyPaymentMethods": false,
+    //   "redirectAutomatically": false,
+    //   "showRecommendedFee": true,
+    //   "recommendedFeeBlockTarget": 1,
+    //   "defaultPaymentMethod": "BTC",
+    //   "defaultLang": "nl-NL",
+    //   "customLogo": null,
+    //   "customCSS": null,
+    //   "htmlTitle": null,
+    //   "networkFeeMode": "MultiplePaymentsOnly",
+    //   "payJoinEnabled": true
     // }
 }

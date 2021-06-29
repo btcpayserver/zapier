@@ -11,6 +11,7 @@ const markInvoiceInvalid = require("./creates/MarkInvoiceInvalid");
 const markInvoiceSettled = require("./creates/MarkInvoiceSettled");
 
 const findInvoice = require("./searches/FindInvoice");
+const findStore = require("./searches/FindStore");
 
 const beforeRequest = (request, z, bundle) => {
     request.headers['Content-Type'] = 'application/json';
@@ -70,6 +71,7 @@ module.exports = {
     },
 
     searches: {
-        [findInvoice.key]: findInvoice
+        [findInvoice.key]: findInvoice,
+        [findStore.key]: findStore
     }
 };
