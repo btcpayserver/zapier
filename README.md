@@ -8,6 +8,9 @@ The Zapier integration allows you to use triggers from BTCPay Server (like when 
 - A BTCPay Server instance where you have 1 or more stores
 - An API key that has access to the store and resources you want to automate (BEWARE: Never grant more permissions that is absolutely needed!)
 
+## Get your access to the app
+Because the app is not published yet, please use this invite link: https://zapier.com/developer/public-invite/138823/2132b7099f6ec87c6474d94b4ba7e066/
+
 ## Security Considerations
 With great power comes great responsibility. So when you automate your BTCPay Server, you should consider the things that could go wrong or get abused if someone were to get hold of your API Key.
 Because you will be providing Zapier with your API key, we strongly encourage you to create an API key with as little permissions as possible.
@@ -43,6 +46,7 @@ Working Actions:
 
 Working Searches:
 - Find an Invoice by Order ID
+- Get Store Details by Store ID
 
 ## Tests
 Tests are implemented with Jest and should work 100%. Just run `zapier test` to run them.
