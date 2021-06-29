@@ -8,7 +8,7 @@ const perform = async (z, bundle) => {
     });
 
     if (response.json.length > 0) {
-        return [Invoice.format(response.json[0])];
+        return [Invoice.format(response.json[0], bundle.inputData.store_id)];
     } else {
         return [];
     }
