@@ -22,8 +22,8 @@ module.exports = {
     noun: Store.noun,
 
     display: {
-        label: 'Find Store by ID',
-        description: 'Finds a Store for a given ID.',
+        label: 'Get Store Details',
+        description: 'Finds a Store for a given ID and get the details.',
         hidden: false,
         important: false,
     },
