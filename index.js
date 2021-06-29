@@ -3,7 +3,7 @@ const invoiceCreated = require('./triggers/InvoiceCreated.js');
 const invoiceExpired = require('./triggers/InvoiceExpired.js');
 const invoiceInvalid = require('./triggers/InvoiceInvalid.js');
 const invoiceProcessing = require('./triggers/InvoicePaidInFull.js');
-const invoiceSettled = require('./triggers/InvoiceConfirmed.js');
+const invoiceSettled = require('./triggers/InvoiceSettled.js');
 const paymentReceived = require('./triggers/InvoiceReceivedPayment.js');
 
 const createInvoice = require("./creates/CreateInvoice");

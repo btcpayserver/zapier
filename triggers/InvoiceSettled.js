@@ -2,7 +2,7 @@ const Util = require('../common/functions');
 const Invoice = require('../common/Invoice');
 const Store = require('../common/Store');
 
-const eventName = 'InvoiceConfirmed';
+const eventName = 'InvoiceSettled';
 
 const performSubscribe = function (z, bundle) {
     return Util.performSubscribe(z, bundle, eventName);
