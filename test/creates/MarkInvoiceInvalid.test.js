@@ -34,6 +34,7 @@ describe('creates.invoice', () => {
 
             expect(invalidInvoice).toBeDefined();
             expect(invalidInvoice.id).toBeDefined();
+            expect(invalidInvoice.storeId).toBe(process.env.STORE_ID);
             expect(invalidInvoice.status).toBe('Invalid');
         }
     );

@@ -5,7 +5,7 @@ const markInvoiceInvalid = function (z, bundle) {
     return Invoice.setStatus(z, bundle, bundle.inputData.invoice_id, 'Invalid');
 }
 
-async function integrationTest(z, bundle) {
+async function test(z, bundle) {
     // 1. Prepare a new invoice to run the test on
     const invoice = await Invoice.create(
         z,
@@ -27,6 +27,7 @@ async function integrationTest(z, bundle) {
 
 module.exports = {
     operation: {
+        test: test,
         perform: markInvoiceInvalid,
         inputFields: [
             Store.inputFields.store_id,
