@@ -56,11 +56,8 @@ module.exports = {
     },
 
     performForOne: async function (z, bundle) {
-        // TODO this is a bit ugly, but I can't seam to be able to access this.format() here :(
-        const Invoice = require('../common/Invoice');
-
         Util.validateSignature(z, bundle);
-        const invoice = await Invoice.getById(z, bundle, bundle.inputData.store_id, bundle.cleanedRequest.invoiceId);
+        const invoice = await module.exports.getById(z, bundle, bundle.inputData.store_id, bundle.cleanedRequest.invoiceId);
 
         // TODO should we merge a few fields that came with the webhook, like "partiallyPaid", "afterExpiration", "overPaid" and "manuallyMarked"? Also add to "outputFields" if we decide to do so.
 
@@ -92,13 +89,10 @@ module.exports = {
         };
 
         return z.request(options).then((response) => {
-            // TODO this is a bit ugly, but I can't seam to be able to access this.format() here :(
-            const Invoice = require('../common/Invoice');
-
             let results = response.json;
 
             for (let i = 0; i < results.length; i++) {
-                results[i] = Invoice.format(results[i], bundle.inputData.store_id);
+                results[i] = module.exports.format(results[i], bundle.inputData.store_id);
             }
             return results;
         });
