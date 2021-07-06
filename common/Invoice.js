@@ -18,7 +18,7 @@ module.exports = {
         }
     },
 
-    create: async function (z, serverUrl, storeId, amount, currency, orderId, buyerName, buyerEmail, buyerCountry, buyerZip, buyerState, buyerCity, buyerAddress1, buyerAddress2, buyerPhone) {
+    create: async function (z, serverUrl, storeId, amount, currency, orderId, orderUrl, buyerName, buyerEmail, buyerCountry, buyerZip, buyerState, buyerCity, buyerAddress1, buyerAddress2, buyerPhone) {
         const options = {
             url: serverUrl + '/api/v1/stores/' + storeId + '/invoices/',
             method: 'POST',
@@ -28,6 +28,7 @@ module.exports = {
                 currency: currency,
                 metadata: {
                     orderId: orderId,
+                    orderUrl: orderUrl,
                     buyerName: buyerName,
                     buyerEmail: buyerEmail,
                     buyerCountry: buyerCountry,
