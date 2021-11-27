@@ -2,7 +2,7 @@ const Util = require('../common/functions');
 const Invoice = require('../common/Invoice');
 const Store = require('../common/Store');
 
-const eventName = 'InvoicePaidInFull';
+const eventName = 'InvoicePaymentSettled';
 
 const performSubscribe = function (z, bundle) {
     return Util.performSubscribe(z, bundle, eventName);
@@ -22,8 +22,8 @@ module.exports = {
     key: eventName,
     noun: Invoice.noun,
     display: {
-        label: 'Invoice Processing',
-        description: 'Triggers when an invoice is fully paid, but doesn\'t have the required amount of confirmations on the blockchain yet according to your store\'s settings.',
+        label: 'Invoice Payment Settled',
+        description: 'Triggers when a (potentially partial) payment related to an invoice has enough confirmations on the blockchain according to your store\'s configuration, making the payment final.',
         hidden: false,
         important: false,
     },

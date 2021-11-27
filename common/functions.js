@@ -9,12 +9,17 @@ function HMAC256(data, secret) {
 
 module.exports = {
     validateSignature: function (z, bundle) {
-        const correctSecret = bundle.subscribeData.secret;
         const requestHash = bundle.rawRequest.headers['Http-Btcpay-Sig'];
-        const ourHash = 'sha256=' + HMAC256(bundle.rawRequest.content, correctSecret);
+        const ourHash = this.calculateHash(bundle);
         if (requestHash !== ourHash) {
             throw new z.errors.Error('Incoming webhook message is not signed correctly. Cannot trust the sender.', 'BadSignature', 403);
         }
+    },
+
+    calculateHash: function(bundle){
+        const correctSecret = bundle.subscribeData.secret;
+        const r = 'sha256=' + HMAC256(bundle.rawRequest.content, correctSecret);
+        return r;
     },
 
     performSubscribe: function (z, bundle, eventName) {

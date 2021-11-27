@@ -31,6 +31,7 @@ describe('creates.invoice', () => {
                 }
             }
 
+            // TODO we need access to "z"
 
         // 1. Prepare a new invoice to run the test on
         const invoice = await Invoice.create(
