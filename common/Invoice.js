@@ -67,12 +67,6 @@ module.exports = {
 
 
     format: function (invoice, storeId) {
-
-        if (typeof invoice.storeId === 'undefined') {
-            // TODO remove this when https://github.com/btcpayserver/btcpayserver/pull/2592 is merged.
-            invoice.storeId = storeId; // storeId is not a field that we normally have, so we add the Store ID here for convenience.
-        }
-
         invoice.amount = Number(invoice.amount);
         invoice.monitoringExpiration = new Date(invoice.monitoringExpiration * 1000).toISOString();
         invoice.expirationTime = new Date(invoice.expirationTime * 1000).toISOString();

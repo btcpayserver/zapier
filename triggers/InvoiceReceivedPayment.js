@@ -23,7 +23,7 @@ module.exports = {
     noun: Invoice.noun,
     display: {
         label: 'Payment Received',
-        description: 'Triggers when a full or partial payment was received. The payment is not settled yet.',
+        description: 'Triggers when a full or partial payment was received. The payment is not settled yet, meaning it does not have enough confirmations on the blockchain yet.',
         hidden: false,
         important: false,
     },

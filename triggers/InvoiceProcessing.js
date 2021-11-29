@@ -2,7 +2,7 @@ const Util = require('../common/functions');
 const Invoice = require('../common/Invoice');
 const Store = require('../common/Store');
 
-const eventName = 'InvoiceSettled';
+const eventName = 'InvoiceProcessing';
 
 const performSubscribe = function (z, bundle) {
     return Util.performSubscribe(z, bundle, eventName);
@@ -22,9 +22,9 @@ module.exports = {
     key: eventName,
     noun: Invoice.noun,
     display: {
-        label: 'Invoice Settled',
-        description: 'Triggers when an invoice is fully paid and has enough confirmations on the blockchain according to your store\'s configuration, making the invoice settled.',
+        label: 'Invoice Processing',
+        description: 'Triggers when an invoice is fully paid, but doesn\'t have the required amount of confirmations on the blockchain yet according to your store\'s settings.',
         hidden: false,
-        important: true,
+        important: false,
     },
 };

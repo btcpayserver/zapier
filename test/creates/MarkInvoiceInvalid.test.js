@@ -1,14 +1,15 @@
 const zapier = require('zapier-platform-core');
 
 const App = require('../../index');
+const Invoice = require('../../common/Invoice');
+
 const appTester = zapier.createAppTester(App);
 
 zapier.tools.env.inject();
 
-
 describe('creates.invoice', () => {
     test(App.creates.MarkInvoiceInvalid.key, async () => {
-            const bundle = {
+            let bundle = {
                 authData: {
                     server_url: process.env.SERVER_URL,
                     api_key: process.env.API_KEY
@@ -30,7 +31,25 @@ describe('creates.invoice', () => {
                 }
             }
 
-            const invalidInvoice = await appTester(App.creates.MarkInvoiceInvalid.operation.test, bundle);
+            // TODO we need access to "z"
+
+        // 1. Prepare a new invoice to run the test on
+        const invoice = await Invoice.create(
+            z,
+            process.env.SERVER_URL,
+            process.env.STORE_ID,
+            1,
+            'EUR',
+        );
+
+        // 2. Set the inputs so we can run
+        bundle.inputData = {
+            store_id: invoice.storeId,
+            invoice_id: invoice.id
+        };
+
+
+            const invalidInvoice = await appTester(perform, bundle);
 
             expect(invalidInvoice).toBeDefined();
             expect(invalidInvoice.id).toBeDefined();
@@ -39,3 +58,4 @@ describe('creates.invoice', () => {
         }
     );
 });
+

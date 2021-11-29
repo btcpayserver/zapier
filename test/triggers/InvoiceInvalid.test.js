@@ -14,7 +14,7 @@ const appTester = zapier.createAppTester(App);
 zapier.tools.env.inject();
 
 describe('triggers', () => {
-    test(App.triggers.InvoiceCreated.key + ' webhook', async () => {
+    test(App.triggers.InvoiceInvalid.key + ' webhook', async () => {
 
         const invoiceId = process.env.INVOICE_ID;
 
@@ -32,7 +32,7 @@ describe('triggers', () => {
                     '  "webhookId": "6KQ4EmzqKowRgyBL65TwJg",\n' +
                     '  "originalDeliveryId": "PENf2czGBzTepjzSJdt6Nz",\n' +
                     '  "isRedelivery": false,\n' +
-                    '  "type": "'+App.triggers.InvoiceCreated.key+'",\n' +
+                    '  "type": "'+App.triggers.InvoiceInvalid.key+'",\n' +
                     '  "timestamp": 1623954207,\n' +
                     '  "storeId": "Hf9GvFK2dHJehm9J8A6kYfbc1ruc5jEZBKEr9r7jsrLo",\n' +
                     '  "invoiceId": "'+invoiceId+'"\n' +
@@ -49,7 +49,7 @@ describe('triggers', () => {
         bundle.rawRequest.headers = {'Http-Btcpay-Sig': Util.calculateHash(bundle)};
 
         const results = await appTester(
-            App.triggers.InvoiceCreated.operation.perform,
+            App.triggers.InvoiceInvalid.operation.perform,
             bundle
         );
 
@@ -61,7 +61,7 @@ describe('triggers', () => {
         expect(invoice.checkoutLink).toBeDefined();
     });
 
-    test(App.triggers.InvoiceCreated.key + ' list sample data', async () => {
+    test(App.triggers.InvoiceInvalid.key + ' list sample data', async () => {
 
         const z = {};
 
@@ -79,7 +79,7 @@ describe('triggers', () => {
         };
 
         const results = await appTester(
-            App.triggers.InvoiceCreated.operation.performList,
+            App.triggers.InvoiceInvalid.operation.performList,
             bundle
         );
 

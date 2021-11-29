@@ -5,29 +5,8 @@ const markInvoiceInvalid = function (z, bundle) {
     return Invoice.setStatus(z, bundle, bundle.inputData.invoice_id, 'Invalid');
 }
 
-async function test(z, bundle) {
-    // 1. Prepare a new invoice to run the test on
-    const invoice = await Invoice.create(
-        z,
-        process.env.SERVER_URL,
-        process.env.STORE_ID,
-        1,
-        'EUR',
-    );
-
-    // 2. Set the inputs so we can run
-    bundle.inputData = {
-        store_id: invoice.storeId,
-        invoice_id: invoice.id
-    };
-
-    // 3. Do the logic we wanna test
-    return markInvoiceInvalid(z, bundle);
-}
-
 module.exports = {
     operation: {
-        test: test,
         perform: markInvoiceInvalid,
         inputFields: [
             Store.inputFields.store_id,
@@ -47,7 +26,7 @@ module.exports = {
             createdTime: "2021-07-08T12:17:24.000Z",
             expirationTime: "2021-07-08T12:32:24.000Z",
             monitoringExpiration: "2021-07-08T13:17:24.000Z",
-            amount: '7.0',
+            amount: 7.0,
             currency: 'EUR',
             metadata: {},
             checkout: {

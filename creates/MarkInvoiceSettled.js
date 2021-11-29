@@ -26,7 +26,7 @@ module.exports = {
             createdTime: "2021-07-08T12:17:24.000Z",
             expirationTime: "2021-07-08T12:32:24.000Z",
             monitoringExpiration: "2021-07-08T13:17:24.000Z",
-            amount: '7.0',
+            amount: 7.0,
             currency: 'EUR',
             metadata: {},
             checkout: {

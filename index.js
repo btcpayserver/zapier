@@ -2,8 +2,9 @@ const authentication = require('./authentication');
 const invoiceCreated = require('./triggers/InvoiceCreated.js');
 const invoiceExpired = require('./triggers/InvoiceExpired.js');
 const invoiceInvalid = require('./triggers/InvoiceInvalid.js');
-const invoiceProcessing = require('./triggers/InvoicePaidInFull.js');
+const invoiceProcessing = require('./triggers/InvoiceProcessing.js');
 const invoiceSettled = require('./triggers/InvoiceSettled.js');
+const invoicePaymentSettled = require('./triggers/InvoicePaymentSettled.js');
 const paymentReceived = require('./triggers/InvoiceReceivedPayment.js');
 
 const createInvoice = require("./creates/CreateInvoice");
@@ -46,7 +47,7 @@ module.exports = {
                 },
                 operation: {
                     perform: (z, bundle) => {
-                        // called for store_id dropdown
+                        // This is called to populate tthe store_id dropdown
                         const Stores = require('./common/Store.js');
                         return Stores.getAll(z, bundle);
                     },
@@ -60,6 +61,7 @@ module.exports = {
         [paymentReceived.key]: paymentReceived,
         [invoiceProcessing.key]: invoiceProcessing,
         [invoiceSettled.key]: invoiceSettled,
+        [invoicePaymentSettled.key]: invoicePaymentSettled,
         [invoiceExpired.key]: invoiceExpired,
         [invoiceInvalid.key]: invoiceInvalid,
     },
