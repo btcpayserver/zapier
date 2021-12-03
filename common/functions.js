@@ -16,7 +16,7 @@ module.exports = {
         }
     },
 
-    calculateHash: function(bundle){
+    calculateHash: function (bundle) {
         const correctSecret = bundle.subscribeData.secret;
         const r = 'sha256=' + HMAC256(bundle.rawRequest.content, correctSecret);
         return r;
@@ -24,7 +24,7 @@ module.exports = {
 
     performSubscribe: function (z, bundle, eventName) {
         const options = {
-            url: `${bundle.authData.server_url}/api/v1/stores/${bundle.inputData.store_id}/webhooks`,
+            url: bundle.authData.server_url + '/api/v1/stores/' + encodeURI(bundle.inputData.store_id) + '/webhooks',
             method: 'POST',
             params: {},
             body: {
@@ -52,7 +52,7 @@ module.exports = {
         console.log(bundle.subscribeData);
 
         const options = {
-            url: `${bundle.authData.server_url}/api/v1/stores/${bundle.authData.store_id}/webhooks/` + hookId,
+            url: bundle.authData.server_url+'/api/v1/stores/'+bundle.authData.store_id+'/webhooks/' + encodeURI(hookId),
             method: 'DELETE',
             params: {},
             body: {},

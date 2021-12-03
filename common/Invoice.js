@@ -4,7 +4,7 @@ module.exports = {
     noun: 'Invoice',
     getById: async function (z, bundle, storeId, invoiceId) {
         const options = {
-            url: bundle.authData.server_url + '/api/v1/stores/' + storeId + '/invoices/' + invoiceId,
+            url: bundle.authData.server_url + '/api/v1/stores/' + encodeURI(storeId) + '/invoices/' + encodeURI(invoiceId),
             method: 'GET',
             params: {},
             body: {},
@@ -20,7 +20,7 @@ module.exports = {
 
     create: async function (z, serverUrl, storeId, amount, currency, orderId, orderUrl, buyerName, buyerEmail, buyerCountry, buyerZip, buyerState, buyerCity, buyerAddress1, buyerAddress2, buyerPhone) {
         const options = {
-            url: serverUrl + '/api/v1/stores/' + storeId + '/invoices/',
+            url: serverUrl + '/api/v1/stores/' + encodeURI(storeId) + '/invoices/',
             method: 'POST',
             params: {},
             body: {
@@ -66,7 +66,7 @@ module.exports = {
     },
 
 
-    format: function (invoice, storeId) {
+    format: function (invoice) {
         invoice.amount = Number(invoice.amount);
         invoice.monitoringExpiration = new Date(invoice.monitoringExpiration * 1000).toISOString();
         invoice.expirationTime = new Date(invoice.expirationTime * 1000).toISOString();
@@ -77,7 +77,7 @@ module.exports = {
     getSampleData: function (z, bundle) {
         // Used for testing and setup. Just return the latest invoice in the same format as you'd normally get (see: perform() method).
         const options = {
-            url: bundle.authData.server_url + '/api/v1/stores/' + bundle.inputData.store_id + '/invoices',
+            url: bundle.authData.server_url + '/api/v1/stores/' + encodeURI(bundle.inputData.store_id) + '/invoices',
             method: 'GET',
             params: {},
             body: {},
@@ -95,7 +95,7 @@ module.exports = {
 
     setStatus: async function (z, bundle, invoice_id, newStatus) {
         const options = {
-            url: bundle.authData.server_url + '/api/v1/stores/' + bundle.inputData.store_id + '/invoices/' + invoice_id + '/status',
+            url: bundle.authData.server_url + '/api/v1/stores/' + encodeURI(bundle.inputData.store_id) + '/invoices/' + encodeURI(invoice_id) + '/status',
             method: 'POST',
             params: {},
             body: {

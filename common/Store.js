@@ -5,7 +5,7 @@ module.exports = {
 
     getById: async function (z, bundle, storeId) {
         const options = {
-            url: bundle.authData.server_url + '/api/v1/stores/' + storeId,
+            url: bundle.authData.server_url + '/api/v1/stores/' + encodeURI(storeId),
             method: 'GET',
             params: {},
             body: {},

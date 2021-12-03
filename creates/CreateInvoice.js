@@ -2,41 +2,6 @@ const Invoice = require('../common/Invoice');
 const Store = require('../common/Store');
 
 const createInvoice = async function (z, bundle) {
-    // const options = {
-    //     url: `${bundle.authData.server_url}/api/v1/stores/${bundle.inputData.store_id}/invoices/`,
-    //     method: 'POST',
-    //     params: {},
-    //     body: {
-    //         amount: bundle.inputData.amount,
-    //         currency: bundle.inputData.currency_code,
-    //         metadata: {
-    //             orderId: bundle.inputData.order_id,
-    //             buyerName: bundle.inputData.buyer_name,
-    //             buyerEmail: bundle.inputData.buyer_email,
-    //             buyerCountry: bundle.inputData.buyer_country,
-    //             buyerZip: bundle.inputData.buyer_zip,
-    //             buyerState: bundle.inputData.buyer_state,
-    //             buyerCity: bundle.inputData.buyer_city,
-    //             buyerAddress1: bundle.inputData.buyer_address1,
-    //             buyerAddress2: bundle.inputData.buyer_address2,
-    //             buyerPhone: bundle.inputData.buyer_phone,
-    //         }
-    //     }
-    // };
-    //
-    // let response = await z.request(options);
-    // if (response.status === 200) {
-    //     return Invoice.format(response.json, bundle.inputData.store_id);
-    // } else if (response.status === 403) {
-    //     throw new z.errors.Error('Forbidden. Invoice could not be created.', 'Forbidden', response.status);
-    // } else {
-    //     let errorMsg = 'Error: ';
-    //     for (let i = 0; i < response.json.length; i++) {
-    //         errorMsg += response.json[i].message + ', ';
-    //     }
-    //     throw new z.errors.Error(errorMsg, 'InvalidData', response.status);
-    // }
-
     return Invoice.create(
         z,
         bundle.authData.server_url,
