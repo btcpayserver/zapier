@@ -10,6 +10,7 @@ const paymentReceived = require('./triggers/InvoiceReceivedPayment.js');
 const createInvoice = require("./creates/CreateInvoice");
 const markInvoiceInvalid = require("./creates/MarkInvoiceInvalid");
 const markInvoiceSettled = require("./creates/MarkInvoiceSettled");
+const generateStoreOnChainWalletAddress = require("./creates/GenerateStoreOnChainWalletAddress");
 
 const findInvoice = require("./searches/FindInvoice");
 const findStore = require("./searches/FindStore");
@@ -69,7 +70,8 @@ module.exports = {
     creates: {
         [createInvoice.key]: createInvoice,
         [markInvoiceInvalid.key]: markInvoiceInvalid,
-        [markInvoiceSettled.key]: markInvoiceSettled
+        [markInvoiceSettled.key]: markInvoiceSettled,
+        [generateStoreOnChainWalletAddress.key]: generateStoreOnChainWalletAddress,
     },
 
     searches: {
