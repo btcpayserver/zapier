@@ -8,6 +8,18 @@ function HMAC256(data, secret) {
 }
 
 module.exports = {
+
+    randomText: function(length) {
+        var result           = '';
+        var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var charactersLength = characters.length;
+        for ( var i = 0; i < length; i++ ) {
+            result += characters.charAt(Math.floor(Math.random() *
+                charactersLength));
+        }
+        return result;
+    },
+
     validateSignature: function (z, bundle) {
         const requestHash = bundle.rawRequest.headers['Http-Btcpay-Sig'];
         const ourHash = this.calculateHash(bundle);

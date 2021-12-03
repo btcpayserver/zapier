@@ -8,6 +8,7 @@ const invoicePaymentSettled = require('./triggers/InvoicePaymentSettled.js');
 const paymentReceived = require('./triggers/InvoiceReceivedPayment.js');
 
 const createInvoice = require("./creates/CreateInvoice");
+const createUser = require("./creates/CreateUser");
 const markInvoiceInvalid = require("./creates/MarkInvoiceInvalid");
 const markInvoiceSettled = require("./creates/MarkInvoiceSettled");
 const generateStoreOnChainWalletAddress = require("./creates/GenerateStoreOnChainWalletAddress");
@@ -70,6 +71,7 @@ module.exports = {
 
     creates: {
         [createInvoice.key]: createInvoice,
+        [createUser.key]: createUser,
         [markInvoiceInvalid.key]: markInvoiceInvalid,
         [markInvoiceSettled.key]: markInvoiceSettled,
         [generateStoreOnChainWalletAddress.key]: generateStoreOnChainWalletAddress,
