@@ -65,7 +65,7 @@ module.exports = {
     key: 'GenerateStoreOnChainWalletAddress',
     noun: 'On-Chain Wallet Address',
     display: {
-        label: 'Generate Store On-Chain Wallet Address',
+        label: 'Generate On-Chain Wallet Address',
         description: 'Generates a new address for a store wallet.',
         hidden: false,
         important: false,
