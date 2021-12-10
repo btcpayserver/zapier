@@ -153,7 +153,12 @@ module.exports = {
         "monitoringExpiration": "2021-07-08T13:17:24.000Z",
         "amount": 6.15,
         "currency": "EUR",
-        "metadata": {},
+        "metadata": {
+            "buyerEmail": "satoshin@gmx.com",
+            "buyerName": "Satoshi Nakamoto",
+            "orderId": "ABC-123456",
+            "itemDesc": "White paper"
+        },
         "checkout": {
             "speedPolicy": "MediumSpeed",
             "paymentMethods": ["BTC", "BTC-LightningNetwork"],
