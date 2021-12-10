@@ -119,14 +119,21 @@ module.exports = {
 
     outputFields: [
         {key: 'id', label: 'Invoice ID', type: 'string'},
+        {key: 'storeId', label: 'Store ID', type: 'string'},
         {key: 'metadata__orderId', label: 'Order ID', type: 'string'},
         {key: 'metadata__posData', label: 'POS Data', type: 'string'},
         {key: 'metadata__itemDesc', label: 'Item Description', type: 'string'},
         {key: 'metadata__buyerEmail', label: 'Buyer Email', type: 'string'},
         {key: 'metadata__buyerName', label: 'Buyer Name', type: 'string'},
-        {key: 'metadata__physical', label: 'Is Physical', type: 'boolean'},
-        {key: 'metadata__taxIncluded', label: 'Tax Amount Included', type: 'boolean'}, // TODO This field is not in the Greenfield API docs. Should we remove it using format() ?
+        {key: 'metadata__buyerAddress1', label: 'Buyer Address Line 1', type: 'string'},
+        {key: 'metadata__buyerAddress2', label: 'Buyer Address Line 2', type: 'string'},
+        {key: 'metadata__buyerZip', label: 'Buyer Zip', type: 'string'},
+        {key: 'metadata__buyerCity', label: 'Buyer City', type: 'string'},
+        {key: 'metadata__buyerState', label: 'Buyer State', type: 'string'},
+        {key: 'metadata__buyerCountry', label: 'Buyer Country', type: 'string'},
+        {key: 'archived', label: 'Is Achived', type: 'boolean'},
         {key: 'checkout__speedPolicy', label: 'Speed Policy', type: 'string'},
+        {key: 'availableStatusesForManualMarking[]', label: 'Available Statuses for Manual Marking', type: 'string'},
         {key: 'checkout__paymentMethods[]', label: 'Payment Method', type: 'string'},
         {key: 'checkout__expirationMinutes', label: 'Expiration Minutes', type: 'string'},
         {key: 'checkout__monitoringMinutes', label: 'Monitoring Minutes', type: 'string'},
@@ -145,6 +152,7 @@ module.exports = {
     ],
     sample: {
         "id": "VDdmfYJzJm9VtqW8hqhypF",
+        "storeId": "BXnSie6Dz5wp8iTzwiZzHnCnKV7sbw6Y5v35jDspzQNv",
         "checkoutLink": ":censored:25:c3b580afa6:/i/VDdmfYJzJm9VtqW8hqhypF",
         "status": "Expired",
         "additionalStatus": "None",
@@ -153,11 +161,22 @@ module.exports = {
         "monitoringExpiration": "2021-07-08T13:17:24.000Z",
         "amount": 6.15,
         "currency": "EUR",
+        "availableStatusesForManualMarking": [
+            "Settled",
+            "Invalid"
+        ],
+        "archived": false,
         "metadata": {
             "buyerEmail": "satoshin@gmx.com",
             "buyerName": "Satoshi Nakamoto",
             "orderId": "ABC-123456",
-            "itemDesc": "White paper"
+            "itemDesc": "White paper",
+            "buyerAddress1": "Some street line 1",
+            "buyerAddress2": "Some street line 2",
+            "buyerZip": "1000ABC",
+            "buyerCity": "Some City",
+            "buyerState": "TX",
+            "buyerCountry": "US",
         },
         "checkout": {
             "speedPolicy": "MediumSpeed",
