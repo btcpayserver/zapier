@@ -1,4 +1,5 @@
 const Store = require('../common/Store');
+const CryptoCode = require('../common/CryptoCode');
 
 const createStoreOnChainWalletTransaction = async function (z, bundle) {
     const cryptoCode = bundle.inputData.crypto_code;
@@ -62,16 +63,7 @@ module.exports = {
                 list: false,
                 altersDynamicFields: false,
             },
-            {
-                key: 'crypto_code',
-                label: 'Crypto Code',
-                type: 'string',
-                helpText:
-                    'The cryptocurrency to be used like "BTC".',
-                required: true,
-                list: false, // TODO is there a way to get a list of all crypto codes?
-                altersDynamicFields: false,
-            },
+            CryptoCode.inputFields.crypto_code,
             {
                 key: 'destination',
                 label: 'Destination',

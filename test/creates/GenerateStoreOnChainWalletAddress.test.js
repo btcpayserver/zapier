@@ -16,11 +16,6 @@ describe('creates.GenerateStoreOnChainWalletAddress', () => {
                     server_url: process.env.SERVER_URL,
                     api_key: process.env.API_KEY
                 },
-                rawRequest: {
-                    headers: {
-                        'Http-Btcpay-Sig': 'sha256=4ec27a6ca16dbc7b8c7ddfb5654b1f8dbf8c69a439e970fd2bfac6e19713f211'
-                    },
-                },
                 inputData: {
                     store_id: storeId,
                     crypto_code: cryptoCode,
