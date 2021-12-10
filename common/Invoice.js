@@ -44,7 +44,7 @@ module.exports = {
 
         let response = await z.request(options);
         if (response.status === 200) {
-            return this.format(response.json, storeId);
+            return this.format(response.json);
         } else if (response.status === 403) {
             throw new z.errors.Error('Forbidden. Invoice could not be created.', 'Forbidden', response.status);
         } else {

@@ -46,7 +46,7 @@ module.exports = {
             "email": "user@example.com",
             "emailConfirmed": true,
             "requiresEmailConfirmation": true,
-            "created": 1592312018,
+            "created": "2021-07-08T12:17:24.000Z",
             "roles": [
                 "admin"
             ]

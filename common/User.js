@@ -15,7 +15,7 @@ module.exports = {
 
         let response = await z.request(options);
         if (response.status === 201) {
-            return response.json;
+            return this.format(response.json);
         } else if (response.status === 403) {
             throw new z.errors.Error('Forbidden. Invoice could not be created.', 'Forbidden', response.status);
         } else {
@@ -25,6 +25,11 @@ module.exports = {
             }
             throw new z.errors.Error(errorMsg, 'InvalidData', response.status);
         }
+    },
+
+    format: function(user){
+        user.created = new Date(user.created * 1000).toISOString();
+        return user;
     },
 
     inputFields: {},
@@ -53,7 +58,7 @@ module.exports = {
         {key: 'email', label: 'Email', type: 'string'},
         {key: 'emailConfirmed', label: 'Email Confirmed', type: 'boolean'},
         {key: 'requiresEmailConfirmation', label: 'Requires Email Confirmation', type: 'boolean'},
-        {key: 'created', label: 'Creation Unix Timestamp', type: 'integer'},
+        {key: 'created', label: 'Creation Unix Timestamp', type: 'datetime'},
         {key: 'roles[]', label: 'Roles', type: 'string'},
     ],
 
