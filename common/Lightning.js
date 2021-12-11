@@ -12,6 +12,15 @@ module.exports = {
             required: true,
             list: false,
             altersDynamicFields: false,
+        },
+        bolt11: {
+            key: 'bolt11',
+            label: 'BOLT 11 Lightning Invoice',
+            type: 'string',
+            helpText: 'A Lightning invoice in BOLT11 format.',
+            required: true,
+            list: false,
+            altersDynamicFields: false,
         }
     },
 }

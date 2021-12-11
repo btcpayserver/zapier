@@ -30,7 +30,8 @@ module.exports = {
     },
 
     outputFields: {
-        address: {key: 'address', label: 'Address', type: 'string'}
+        address: {key: 'address', label: 'Address', type: 'string'},
+        paid: {key: 'paid', label: 'Is Paid', type: 'boolean'},
     },
 
     randomText: function(length) {
