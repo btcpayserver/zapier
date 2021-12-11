@@ -1,5 +1,6 @@
 const Store = require('../common/Store');
 const CryptoCode = require('../common/CryptoCode');
+const Util = require('../common/Util');
 
 const generateStoreOnChainWalletAddress = async function (z, bundle) {
     const cryptoCode = bundle.inputData.crypto_code;
@@ -49,7 +50,7 @@ module.exports = {
             paymentLink: 'bitcoin:bc1qxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
         },
         outputFields: [
-            {key: 'address', label: 'Address', type: 'string'},
+            Util.outputFields.address,
             {key: 'keyPath', label: 'Key Path', type: 'string'},
             {key: 'paymentLink', label: 'Payment Link', type: 'string'},
         ],

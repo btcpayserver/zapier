@@ -29,6 +29,10 @@ module.exports = {
         },
     },
 
+    outputFields: {
+        address: {key: 'address', label: 'Address', type: 'string'}
+    },
+
     randomText: function(length) {
         var result           = '';
         var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

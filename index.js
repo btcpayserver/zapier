@@ -12,6 +12,7 @@ const createUser = require("./creates/CreateUser");
 const markInvoiceInvalid = require("./creates/MarkInvoiceInvalid");
 const markInvoiceSettled = require("./creates/MarkInvoiceSettled");
 const generateStoreOnChainWalletAddress = require("./creates/GenerateStoreOnChainWalletAddress");
+const generateStoreLightningWalletAddress = require("./creates/GenerateStoreLightningWalletAddress");
 const createStoreOnChainWalletTransaction = require("./creates/CreateStoreOnChainWalletTransaction");
 const getStoreOnChainBalance = require("./creates/GetStoreOnChainBalance");
 const getStoreLightningNodeUri = require("./creates/GetStoreLightningNodeUri");
@@ -78,6 +79,7 @@ module.exports = {
         [markInvoiceInvalid.key]: markInvoiceInvalid,
         [markInvoiceSettled.key]: markInvoiceSettled,
         [generateStoreOnChainWalletAddress.key]: generateStoreOnChainWalletAddress,
+        [generateStoreLightningWalletAddress.key]: generateStoreLightningWalletAddress,
         [createStoreOnChainWalletTransaction.key]: createStoreOnChainWalletTransaction,
         [getStoreOnChainBalance.key]: getStoreOnChainBalance,
         [getStoreLightningNodeUri.key]: getStoreLightningNodeUri,
