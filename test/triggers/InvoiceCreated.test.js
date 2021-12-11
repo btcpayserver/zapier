@@ -5,7 +5,7 @@ const zapier = require('zapier-platform-core');
 // createAppTester() makes it easier to test your app. It takes your raw app
 // definition, and returns a function that will test you app.
 const App = require('../../index');
-const Util = require('../../common/functions');
+const Util = require('../../common/Util');
 
 const appTester = zapier.createAppTester(App);
 

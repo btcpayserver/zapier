@@ -9,6 +9,26 @@ function HMAC256(data, secret) {
 
 module.exports = {
 
+    inputFields: {
+        amount: {
+            key: 'amount',
+            label: 'Amount To Pay',
+            type: 'number',
+            required: true,
+            list: false,
+            altersDynamicFields: false,
+        },
+        fee_rate: {
+            key: 'fee_rate',
+            label: 'Fee Rate',
+            type: 'number',
+            required: true,
+            helpText: 'The fee for the transaction in sats/vbyte. Cannot be lower than 1.',
+            list: false,
+            altersDynamicFields: false,
+        },
+    },
+
     randomText: function(length) {
         var result           = '';
         var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

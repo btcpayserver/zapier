@@ -1,4 +1,4 @@
-const Util = require('../common/functions');
+const Util = require('../common/Util');
 const Invoice = require('../common/Invoice');
 const Store = require('../common/Store');
 

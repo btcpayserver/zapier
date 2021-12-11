@@ -26,8 +26,8 @@ describe('creates.CreateStoreOnChainWalletTransaction', () => {
                     crypto_code: cryptoCode,
                     amount: amount,
                     destination: destination,
-                    subtractFeeFromAmount: subtractFeeFromAmount,
-                    feeRate: feeRate
+                    subtract_fee_from_amount: subtractFeeFromAmount,
+                    fee_rate: feeRate
                 },
             }
 

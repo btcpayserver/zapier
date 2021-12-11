@@ -28,14 +28,7 @@ module.exports = {
         perform: createInvoice,
         inputFields: [
             Store.inputFields.store_id,
-            {
-                key: 'amount',
-                label: 'Amount To Pay',
-                type: 'number',
-                required: true,
-                list: false,
-                altersDynamicFields: false,
-            },
+            Util.inputFields.amount,
             {
                 key: 'currency_code',
                 label: 'Currency Code',
