@@ -15,6 +15,7 @@ const generateStoreOnChainWalletAddress = require("./creates/GenerateStoreOnChai
 const createStoreOnChainWalletTransaction = require("./creates/CreateStoreOnChainWalletTransaction");
 const getStoreOnChainBalance = require("./creates/GetStoreOnChainBalance");
 const getStoreLightningNodeUri = require("./creates/GetStoreLightningNodeUri");
+const openStoreLightningChannel = require("./creates/OpenStoreLightningChannel");
 
 const findInvoice = require("./searches/FindInvoice");
 const findStore = require("./searches/FindStore");
@@ -80,6 +81,7 @@ module.exports = {
         [createStoreOnChainWalletTransaction.key]: createStoreOnChainWalletTransaction,
         [getStoreOnChainBalance.key]: getStoreOnChainBalance,
         [getStoreLightningNodeUri.key]: getStoreLightningNodeUri,
+        [openStoreLightningChannel.key]: openStoreLightningChannel,
     },
 
     searches: {
