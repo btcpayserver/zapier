@@ -1,8 +1,6 @@
 const zapier = require('zapier-platform-core');
-
 const App = require('../../index');
 const Invoice = require('../../common/Invoice');
-
 const appTester = zapier.createAppTester(App);
 
 zapier.tools.env.inject();
