@@ -1,3 +1,4 @@
+const Util = require('../common/Util');
 const Store = require('../common/Store');
 const CryptoCode = require('../common/CryptoCode');
 
@@ -7,8 +8,8 @@ const createStoreOnChainWalletTransaction = async function (z, bundle) {
 
     const destination = bundle.inputData.destination;
     const amount = bundle.inputData.amount;
-    let subtractFeeFromAmount = bundle.inputData.subtractFeeFromAmount;
-    let feeRate = bundle.inputData.feeRate;
+    let subtractFeeFromAmount = bundle.inputData.subtract_fee_from_amount;
+    let feeRate = bundle.inputData.fee_rate;
 
     if (feeRate <= 0) {
         feeRate = 1;
@@ -56,15 +57,6 @@ module.exports = {
         inputFields: [
             Store.inputFields.store_id,
             {
-                key: 'amount',
-                label: 'Amount To Send',
-                type: 'number',
-                required: true,
-                list: false,
-                altersDynamicFields: false,
-            },
-            CryptoCode.inputFields.crypto_code,
-            {
                 key: 'destination',
                 label: 'Destination',
                 type: 'string',
@@ -73,8 +65,11 @@ module.exports = {
                 list: false,
                 altersDynamicFields: false,
             },
+            Util.inputFields.amount,
+            CryptoCode.inputFields.crypto_code,
+            Util.inputFields.fee_rate,
             {
-                key: 'subtractFeeFromAmount',
+                key: 'subtract_fee_from_amount',
                 label: 'Subtract transaction fee from amount',
                 type: 'boolean',
                 helpText: 'Enable this if you want to empty your entire balance or you want the receiver to receive the amount minus the fees. If the destination is in the BIP21 format, you will always pay the transaction fee yourself.',
