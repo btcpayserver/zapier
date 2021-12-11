@@ -24,8 +24,7 @@ describe('creates.OpenStoreLightningChannel', () => {
         const results = await appTester(App.creates.OpenStoreLightningChannel.operation.perform, bundle);
 
         expect(results).toBeDefined();
-        expect(results.clearnetUri).toBeDefined();
-        expect(results.torUri).toBeDefined();
+        expect(results.opening).toBeTruthy();
 
     });
 });

@@ -24,7 +24,7 @@ const perform = async (z, bundle) => {
 
     let response = await z.request(options);
     if (response.status === 200) {
-        return {};
+        return {opening: true};
 
     } else if (response.status === 400) {
         throw new z.errors.Error(response.json.message, response.json.code, response.status);
@@ -64,10 +64,10 @@ module.exports = {
             Util.inputFields.fee_rate,
         ],
         sample: {
-
+            opening: true
         },
         outputFields: [
-
+            {key: 'opening', label: 'Channel is opening', type: 'boolean'},
         ],
 
     }

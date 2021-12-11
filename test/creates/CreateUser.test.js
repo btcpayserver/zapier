@@ -38,7 +38,7 @@ describe('creates.CreateUser', () => {
             expect(user.email).toBeDefined();
             expect(user.emailConfirmed).toBeDefined();
             expect(user.requiresEmailConfirmation).toBeDefined();
-            expect(user.created).toBeGreaterThan(1638560614);
+            expect(user.created).toBeDefined();
             expect(user.roles).toBeDefined();
         }
     );

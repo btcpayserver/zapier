@@ -1,5 +1,6 @@
 const Invoice = require('../common/Invoice');
 const Store = require('../common/Store');
+const Util = require('../common/Util');
 
 const createInvoice = async function (z, bundle) {
     return Invoice.create(

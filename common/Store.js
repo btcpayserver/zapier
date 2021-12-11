@@ -1,5 +1,3 @@
-const Util = require('../common/Util');
-
 module.exports = {
     noun: 'Store',
 
