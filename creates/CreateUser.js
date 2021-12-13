@@ -59,6 +59,6 @@ module.exports = {
         label: 'Create User',
         description: 'Creates a User',
         hidden: false,
-        important: true,
+        important: false,
     },
 };

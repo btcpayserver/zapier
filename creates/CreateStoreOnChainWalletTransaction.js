@@ -101,6 +101,6 @@ module.exports = {
         label: 'Create an On-Chain Transaction',
         description: 'Create an on-chain transaction from a store wallet to another address.',
         hidden: false,
-        important: false,
+        important: true,
     },
 };

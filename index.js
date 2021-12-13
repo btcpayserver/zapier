@@ -36,11 +36,26 @@ const beforeRequest = (request, z, bundle) => {
     return request;
 };
 
+const afterResponse = (response, z) => {
+
+    // TODO refactor error handling for all calls! Start using "HaltedError" and "ExpiredAuthError" instead of always using "Error", which turns off the zap entirely!!
+    // Error - Stops the current operation, allowing for (auto) replay. Read more on General Errors
+    // HaltedError - Stops current operation, but will never turn off Zap. Read more on Halting Execution
+    // ExpiredAuthError - Turns off Zap and emails user to manually reconnect. Read more on Stale Authentication Credentials
+
+    // Prevent `throwForStatus` from throwing for a certain status.
+    // if (response.status === 456) {
+    //     response.skipThrowForStatus = true;
+    // }
+    return response;
+};
+
 module.exports = {
     version: require('./package.json').version,
     platformVersion: require('zapier-platform-core').version,
     authentication: authentication,
     beforeRequest: [beforeRequest],
+    afterResponse: [afterResponse],
 
     resources: {
         store: {
