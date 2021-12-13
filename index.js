@@ -18,6 +18,7 @@ const getStoreOnChainBalance = require("./creates/GetStoreOnChainBalance");
 const getStoreLightningNodeUri = require("./creates/GetStoreLightningNodeUri");
 const openStoreLightningChannel = require("./creates/OpenStoreLightningChannel");
 const payLightningInvoice = require("./creates/PayLightningInvoice");
+const createPaymentRequest = require("./creates/CreatePaymentRequest");
 
 const findInvoice = require("./searches/FindInvoice");
 const findStore = require("./searches/FindStore");
@@ -101,6 +102,7 @@ module.exports = {
         [getStoreLightningNodeUri.key]: getStoreLightningNodeUri,
         [openStoreLightningChannel.key]: openStoreLightningChannel,
         [payLightningInvoice.key]: payLightningInvoice,
+        [createPaymentRequest.key]: createPaymentRequest,
     },
 
     searches: {
