@@ -44,10 +44,9 @@ const afterResponse = (response, z) => {
     // HaltedError - Stops current operation, but will never turn off Zap. Read more on Halting Execution
     // ExpiredAuthError - Turns off Zap and emails user to manually reconnect. Read more on Stale Authentication Credentials
 
-    // Prevent `throwForStatus` from throwing for a certain status.
-    // if (response.status === 456) {
-    //     response.skipThrowForStatus = true;
-    // }
+    if (response.status === 403 && 'insufficient-api-permissions' === response.json.Code) {
+        throw new z.errors.ExpiredAuthError(response.json.Message);
+    }
     return response;
 };
 
