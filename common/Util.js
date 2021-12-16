@@ -18,6 +18,25 @@ module.exports = {
             list: false,
             altersDynamicFields: false,
         },
+        currency_code: {
+            key: 'currency_code',
+            label: 'Currency Code',
+            type: 'string',
+            helpText:
+                'The currency code the invoice is in. Can be in fiat (USD, EUR, etc) or in cryptocurrency (BTC, LTC, etc).',
+            required: true,
+            list: false,
+            altersDynamicFields: false,
+        },
+        email: {
+            key: 'email',
+            label: 'Email',
+            type: 'string',
+            helpText: 'The customer\'s email address.',
+            required: false,
+            list: false,
+            altersDynamicFields: false,
+        },
         fee_rate: {
             key: 'fee_rate',
             label: 'Fee Rate',
@@ -34,11 +53,11 @@ module.exports = {
         paid: {key: 'paid', label: 'Is Paid', type: 'boolean'},
     },
 
-    randomText: function(length) {
-        var result           = '';
-        var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    randomText: function (length) {
+        var result = '';
+        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         var charactersLength = characters.length;
-        for ( var i = 0; i < length; i++ ) {
+        for (var i = 0; i < length; i++) {
             result += characters.charAt(Math.floor(Math.random() *
                 charactersLength));
         }
@@ -89,7 +108,7 @@ module.exports = {
         console.log(bundle.subscribeData);
 
         const options = {
-            url: bundle.authData.server_url+'/api/v1/stores/'+bundle.authData.store_id+'/webhooks/' + encodeURI(hookId),
+            url: bundle.authData.server_url + '/api/v1/stores/' + bundle.authData.store_id + '/webhooks/' + encodeURI(hookId),
             method: 'DELETE',
             params: {},
             body: {},

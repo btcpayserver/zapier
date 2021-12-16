@@ -30,16 +30,7 @@ module.exports = {
         inputFields: [
             Store.inputFields.store_id,
             Util.inputFields.amount,
-            {
-                key: 'currency_code',
-                label: 'Currency Code',
-                type: 'string',
-                helpText:
-                    'The currency code the invoice is in. Can be in fiat (USD, EUR, etc) or in cryptocurrency (BTC, LTC, etc).',
-                required: true,
-                list: false,
-                altersDynamicFields: false,
-            },
+            Util.inputFields.currency_code,
             {
                 key: 'order_id',
                 label: 'Order ID',
