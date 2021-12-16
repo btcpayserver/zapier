@@ -58,7 +58,7 @@ module.exports = {
         {key: 'email', label: 'Email', type: 'string'},
         {key: 'emailConfirmed', label: 'Email Confirmed', type: 'boolean'},
         {key: 'requiresEmailConfirmation', label: 'Requires Email Confirmation', type: 'boolean'},
-        {key: 'created', label: 'Creation Unix Timestamp', type: 'datetime'},
+        {key: 'created', label: 'Creation Date', type: 'datetime'},
         {key: 'roles[]', label: 'Roles', type: 'string'},
     ],
 
