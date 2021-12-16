@@ -8,6 +8,8 @@ const performSubscribe = function (z, bundle) {
     return Util.performSubscribe(z, bundle, eventName);
 }
 
+// TODO add afterExpiration + payment, just like in InvoiceReceivedPayment
+
 module.exports = {
     operation: {
         perform: Invoice.performForOne,

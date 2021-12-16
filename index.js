@@ -23,6 +23,18 @@ const createPaymentRequest = require("./creates/CreatePaymentRequest");
 const findInvoice = require("./searches/FindInvoice");
 const findStore = require("./searches/FindStore");
 
+
+
+
+
+// TODO add deliveryId to all triggers
+// TODO add webhookId to all triggers
+// TODO add originalDeliveryId to all triggers
+// TODO add isRedelivery to all triggers
+
+
+
+
 const beforeRequest = (request, z, bundle) => {
     request.headers['Content-Type'] = 'application/json';
     request.headers['Accept'] = 'application/json';
