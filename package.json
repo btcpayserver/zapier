@@ -1,6 +1,6 @@
 {
   "name": "btc-pay-server",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Start Accepting Bitcoin Payments With 0% Fees & No Third-party",
   "main": "index.js",
   "scripts": {
