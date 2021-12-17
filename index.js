@@ -56,8 +56,8 @@ const afterResponse = (response, z) => {
     // HaltedError - Stops current operation, but will never turn off Zap. Read more on Halting Execution
     // ExpiredAuthError - Turns off Zap and emails user to manually reconnect. Read more on Stale Authentication Credentials
 
-    if (response.status === 403 && 'missing-permission' === response.json.Code) {
-        throw new z.errors.ExpiredAuthError(response.json.Message);
+    if (response.status === 403 && 'missing-permission' === response.json.code) {
+        throw new z.errors.ExpiredAuthError(response.json.message);
     }
     return response;
 };
