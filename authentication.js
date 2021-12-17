@@ -20,7 +20,7 @@ module.exports = {
             required: true,
             label: 'BTCPay Server URL',
             type: 'string',
-            helpText: 'Enter your BTC Pay Server URL.',
+            helpText: 'Enter your BTCPay Server URL.',
             default: 'https://mybtcpay.com',
         },
         {
@@ -29,7 +29,9 @@ module.exports = {
             required: true,
             label: 'API Key',
             type: 'string',
-            helpText: 'You can create an API key by going to My Account > API Keys in BTCPay Server.',
+            helpText: 'You can create an API key by going to **My Account > API Keys** in BTCPay Server. \n' +
+                '[Learn more about selecting the right permissions.](https://github.com/btcpayserver/zapier#which-permissions-should-i-choose-for-my-api-key)',
+
         }
     ],
     customConfig: {},
