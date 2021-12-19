@@ -73,12 +73,14 @@ module.exports = {
     },
 
     calculateHash: function (bundle) {
+        // TODO should we throw an exception if the secret is empty? That would be wierd.
         const correctSecret = bundle.subscribeData.secret;
         const r = 'sha256=' + HMAC256(bundle.rawRequest.content, correctSecret);
         return r;
     },
 
     performSubscribe: function (z, bundle, eventName) {
+        // TODO is this unit tested?
         const options = {
             url: bundle.authData.server_url + '/api/v1/stores/' + encodeURI(bundle.inputData.store_id) + '/webhooks',
             method: 'POST',
@@ -96,17 +98,14 @@ module.exports = {
 
         return z.request(options).then((response) => {
             const results = response.json;
-
-            // You can do any parsing you need for results here before returning them
-
+            // This data will be saved in "bundle.subscribeData" so it can be used during unsubscribe.
             return results;
         });
     },
 
     performUnsubscribe: function (z, bundle) {
+        // TODO is this unit tested?
         const hookId = bundle.subscribeData.id
-        console.log(bundle.subscribeData);
-
         const options = {
             url: bundle.authData.server_url + '/api/v1/stores/' + bundle.authData.store_id + '/webhooks/' + encodeURI(hookId),
             method: 'DELETE',
@@ -116,9 +115,6 @@ module.exports = {
 
         return z.request(options).then((response) => {
             const results = response.json;
-
-            // You can do any parsing you need for results here before returning them
-
             return results;
         });
     }
