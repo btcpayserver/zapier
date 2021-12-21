@@ -4,32 +4,29 @@ const Util = require('../common/Util');
 const PaymentRequest = require('../common/PaymentRequest');
 
 const createPaymentRequest = async function (z, bundle) {
+    const serverUrl = bundle.authData.server_url;
+    const storeId = bundle.inputData.store_id;
+
     const options = {
-        url: serverUrl + '/api/v1/stores/' + encodeURI(storeId) + '/invoices/',
+        url: serverUrl + '/api/v1/stores/' + encodeURI(storeId) + '/payment-requests/',
         method: 'POST',
         params: {},
         body: {
-            amount: amount,
-            currency: currency,
-            metadata: {
-                orderId: orderId,
-                orderUrl: orderUrl,
-                buyerName: buyerName,
-                buyerEmail: buyerEmail,
-                buyerCountry: buyerCountry,
-                buyerZip: buyerZip,
-                buyerState: buyerState,
-                buyerCity: buyerCity,
-                buyerAddress1: buyerAddress1,
-                buyerAddress2: buyerAddress2,
-                buyerPhone: buyerPhone,
-            }
+            amount: bundle.inputData.amount,
+            title: bundle.inputData.title,
+            currency: bundle.inputData.currency_code,
+            email: bundle.inputData.email,
+            description: bundle.inputData.description,
+            expiryDate: bundle.inputData.expiry_date,
+            embeddedCSS: bundle.inputData.embedded_css,
+            customCSSLink: bundle.inputData.custom_css_url,
+            allowCustomPaymentAmounts: bundle.inputData.allow_custom_payment_amounts,
         }
     };
 
     let response = await z.request(options);
     if (response.status === 200) {
-        return this.format(response.json);
+        return PaymentRequest.format(response.json);
     } else if (response.status === 403) {
         throw new z.errors.Error('Forbidden. Invoice could not be created.', 'Forbidden', response.status);
     } else {
@@ -39,7 +36,6 @@ const createPaymentRequest = async function (z, bundle) {
         }
         throw new z.errors.Error(errorMsg, 'InvalidData', response.status);
     }
-
 }
 
 
@@ -50,87 +46,62 @@ module.exports = {
             Store.inputFields.store_id,
             Util.inputFields.amount,
             {
-                key: 'currency_code',
-                label: 'Currency Code',
+                key: 'title',
+                label: 'Title',
                 type: 'string',
-                helpText:
-                    'The currency code the invoice is in. Can be in fiat (USD, EUR, etc) or in cryptocurrency (BTC, LTC, etc).',
                 required: true,
-                list: false,
-                altersDynamicFields: false,
+            },
+            Util.inputFields.currency_code,
+            {
+                key: 'email',
+                label: 'Email',
+                type: 'string',
+                helpText: 'The customer\'s email address.',
+                required: false,
             },
             {
-                key: 'order_id',
-                label: 'Order ID',
+                key: 'description',
+                label: 'Description',
                 type: 'string',
-                helpText: 'The Order ID you want to see in BTCPay Server',
                 required: false,
-                list: false,
-                altersDynamicFields: false,
             },
             {
-                key: 'order_url',
-                label: 'Order URL',
-                type: 'string',
-                helpText: 'The URL where you can see the order in an external system.',
+                key: 'expiry_date',
+                label: 'Expiry Date',
+                type: 'datetime',
                 required: false,
-                list: false,
-                altersDynamicFields: false,
             },
             {
-                key: 'buyer_name',
-                label: 'Buyer Name',
+                key: 'embedded_css',
+                label: 'Embedded CSS',
+                helpText: "Custom CSS code for styling the payment request webpage.",
                 type: 'string',
                 required: false,
-                list: false,
-                altersDynamicFields: false,
             },
             {
-                key: 'buyer_email',
-                label: 'Buyer Email',
+                key: 'custom_css_url',
+                label: 'Custom CSS URL',
+                helpText: "URL to your custom CSS for styling the payment request webpage.",
                 type: 'string',
                 required: false,
-                list: false,
-                altersDynamicFields: false,
             },
             {
-                key: 'buyer_country',
-                label: 'Buyer Country',
-                type: 'string',
+                key: 'allow_custom_payment_amounts',
+                label: 'Allow Custom Payment Amounts',
+                helpText: "Whether to allow users to create invoices that partially pay the payment request.",
+                type: 'boolean',
                 required: false,
-                list: false,
-                altersDynamicFields: false,
             },
+
         ],
-        sample: {
-            id: 'VDdmfYJzJm9VtqW8hqhypF',
-            checkoutLink: 'https://mybtcpayserver.com/i/VDdmfYJzJm9VtqW8hqhypF',
-            status: 'New',
-            additionalStatus: 'None',
-            createdTime: "2021-07-08T12:17:24.000Z",
-            expirationTime: "2021-07-08T12:32:24.000Z",
-            monitoringExpiration: "2021-07-08T13:17:24.000Z",
-            amount: 7.0,
-            currency: 'EUR',
-            metadata: {},
-            checkout: {
-                speedPolicy: 'MediumSpeed',
-                paymentMethods: ['BTC', 'BTC-LightningNetwork'],
-                expirationMinutes: 15,
-                monitoringMinutes: 60,
-                paymentTolerance: 0,
-                redirectURL: null,
-                redirectAutomatically: false,
-                defaultLanguage: null,
-            },
-        },
+        sample: PaymentRequest.sample,
         outputFields: Invoice.outputFields,
     },
     key: 'CreatePaymentRequest',
     noun: PaymentRequest.noun,
     display: {
         label: 'Create Payment Request',
-        description: 'Creates an Payment Request',
+        description: 'Creates a Payment Request',
         hidden: false,
         important: true,
     },
