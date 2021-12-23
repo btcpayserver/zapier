@@ -1,6 +1,6 @@
 # Easy Automation for BTCPay Server using Zapier.com - No Programming Skills Required
 
-BTCPay Server can be automated in an unlimited number of ways by using it in a [https://zapier.com](Zapier) workflow.
+BTCPay Server can be automated in an unlimited number of ways by using it in a [Zapier](https://zapier.com) workflow.
 Zapier is a simple tool for non-technical people to set up automations, simply by connecting blocks.
 
 ## Free to Use
@@ -29,7 +29,7 @@ If you are expecting heavy loads however, hiring a developer and building your o
 - Automatically create a new payment request when a row is inserted in a Google Spreadsheet + send the payment link to your customer via email.
 
 ## Getting Started
-Head over to [https://zapier.com/apps/btcpay-server/integrations](https://zapier.com/apps/btcpay-server/integrations) to get started. You will see some examples here + a list of all triggers and actions we support.
+Head over to the [integrations documentation](https://zapier.com/apps/btcpay-server/integrations) to get started. You will see some examples here + a list of all triggers and actions we support.
 
 ## Requirements
 - An account at Zapier.com (free or paid)
@@ -73,7 +73,7 @@ No worries. Just turn your Zap off and on again and the webhook will automatical
 
 
 ## Source Code, Issues and Feature Requests
-The Zapier integration source code is available on GitHub at [https://github.com/btcpayserver/zapier](https://github.com/btcpayserver/zapier).
+The Zapier integration source code is available on GitHub at the [BTCPay Server Zapier repository](https://github.com/btcpayserver/zapier).
 You can also log issues here and ask for missing features.
 Issues can also be reported through Zapier as you encounter them.
 
