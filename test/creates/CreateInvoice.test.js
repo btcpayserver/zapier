@@ -5,6 +5,9 @@ const appTester = zapier.createAppTester(App);
 zapier.tools.env.inject();
 
 describe('creates.invoice', () => {
+
+    jest.setTimeout(7000);
+
     test(App.creates.CreateInvoice.key, async () => {
             const amount = 1 + Math.floor(Math.random() * 100);
             const currencyCode = 'EUR';
