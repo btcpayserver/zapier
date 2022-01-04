@@ -18,7 +18,7 @@ module.exports = {
         }
     },
 
-    create: async function (z, serverUrl, storeId, amount, currency, orderId, orderUrl, buyerName, buyerEmail, buyerCountry, buyerZip, buyerState, buyerCity, buyerAddress1, buyerAddress2, buyerPhone) {
+    create: async function (z, serverUrl, storeId, amount, currency, orderId, orderUrl, redirectUrl, buyerName, buyerEmail, buyerCountry, buyerZip, buyerState, buyerCity, buyerAddress1, buyerAddress2, buyerPhone) {
         const options = {
             url: serverUrl + '/api/v1/stores/' + encodeURI(storeId) + '/invoices/',
             method: 'POST',
@@ -38,6 +38,9 @@ module.exports = {
                     buyerAddress1: buyerAddress1,
                     buyerAddress2: buyerAddress2,
                     buyerPhone: buyerPhone,
+                },
+                checkout: {
+                    redirectURL: redirectUrl
                 }
             }
         };

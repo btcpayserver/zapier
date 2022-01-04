@@ -10,6 +10,7 @@ describe('creates.invoice', () => {
             const currencyCode = 'EUR';
             const orderId = process.env.ZAPIER_ORDER;
             const buyerName = 'Wouter';
+            const redirectUrl = 'https://btcpayserver.org/';
 
             const bundle = {
                 authData: {
@@ -36,6 +37,7 @@ describe('creates.invoice', () => {
                     amount: amount,
                     currency_code: currencyCode,
                     order_id: orderId,
+                    redirect_url: redirectUrl,
                     buyer_name: buyerName,
                     buyer_email: 'zapiertest@btcpayserver.org',
                     buyer_country: 'BE',
@@ -70,6 +72,7 @@ describe('creates.invoice', () => {
             expect(invoice.metadata.buyerAddress1).toBe('Test street line 1');
             expect(invoice.metadata.buyerAddress2).toBe('Test street line 2');
             expect(invoice.metadata.buyerPhone).toBe('123 456 789');
+            expect(invoice.checkout.redirectURL).toBe(redirectUrl);
         }
     );
 });
