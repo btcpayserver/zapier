@@ -14,7 +14,7 @@ module.exports = {
         "embeddedCSS": "body: { background: red; }",
         "customCSSLink": null,
         "allowCustomPaymentAmounts": false,
-        "createdTime": "2021-12-21T11:08:36.833Z"
+        "createdTime": "2021-12-21T11:08:36.000Z"
     },
 
     outputFields: [
@@ -37,16 +37,14 @@ module.exports = {
     format: function (data) {
         data.amount = Number(data.amount);
 
-        if(typeof data.created === 'number') {
+        if(typeof data.createdTime === 'number') {
             // Current BTCPay Server version
-            data.createdTime = new Date(data.created * 1000).toISOString();
+            data.createdTime = new Date(data.createdTime * 1000).toISOString();
         }else if(typeof data.created === 'string') {
-            // Needed for compatibility with older versions from before https://github.com/btcpayserver/btcpayserver/pull/3221
+            // In previous versions, the created timestamp field was called "created" and string instead of integer
             data.createdTime = new Date(data.created).toISOString();
+            delete data['created'];
         }
-
-        // In previous versions, the created timestamp field was called "created"
-        delete data['created'];
 
         return data;
     }
