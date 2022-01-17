@@ -15,7 +15,7 @@ describe('creates.CreatePaymentRequest', () => {
             const amount = 5;
             const currencyCode = "EUR";
 
-            // TODO the unix timestamp does not work. Bug in BTCPay? See
+            // TODO the unix timestamp does not work. Bug in BTCPay? Should be fixed via https://github.com/btcpayserver/btcpayserver/pull/3284 but we need to test this in BTCPay 1.4.0 or later.
             //const expiryDateUnixTimestamp = Math.floor((new Date().getTime()) / 1000) + (30*24*60*60);
             const expiryDateUnixTimestamp = null;
 
