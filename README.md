@@ -29,7 +29,9 @@ If you are expecting heavy loads however, hiring a developer and building your o
 - Automatically create a new payment request when a row is inserted in a Google Spreadsheet + send the payment link to your customer via email.
 
 ## Getting Started
-Head over to the [integrations documentation](https://zapier.com/apps/btcpay-server/integrations) to get started. You will see some examples here + a list of all triggers and actions we support.
+Head over to the [integrations documentation](https://zapier.com/apps/btcpay-server/integrations) to get started. You will see some examples here + a list of all triggers and actions we support. 
+
+[![BTCPay Server - Zapier](https://img.youtube.com/vi/RylpDWt30uc/mqdefault.jpg "BTCPay Server - Zapier")](https://youtu.be/RylpDWt30uc "BTCPay Server - Zapier")
 
 ## Requirements
 - An account at Zapier.com (free or paid)
