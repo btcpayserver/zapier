@@ -2,7 +2,7 @@ module.exports = {
     noun: 'Trade',
 
     create: async function (z, serverUrl, storeId, custodianAccountId, qty, fromAsset, toAsset) {
-        let isPercentage = qty.endsWith("%");
+        let isPercentage = (""+qty).endsWith("%");
         let qtyNumber = qty;
         if(isPercentage){
             qtyNumber = qty.slice(0, -1);

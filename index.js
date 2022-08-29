@@ -22,14 +22,13 @@ const createPaymentRequest = require("./creates/CreatePaymentRequest");
 const custodianAccountDeposit = require("./creates/CustodianAccount/Deposit");
 const custodianAccountGetAssetBalance = require("./creates/CustodianAccount/GetAssetBalance");
 const custodianAccountMarketTrade = require("./creates/CustodianAccount/MarketTrade");
-const custodianAccountWithdraw = require("./creates/CustodianAccount/Withdraw");
+const custodianAccountWithdrawToStore = require("./creates/CustodianAccount/WithdrawToStore");
 
 const findInvoice = require("./searches/FindInvoice");
 const findStore = require("./searches/FindStore");
 const findCustodianAccount = require("./searches/FindCustodianAccount");
 
 const Stores = require("./common/Store");
-
 
 
 
@@ -141,8 +140,8 @@ module.exports = {
         [createPaymentRequest.key]: createPaymentRequest,
         [custodianAccountDeposit.key]: custodianAccountDeposit,
         [custodianAccountGetAssetBalance.key]: custodianAccountGetAssetBalance,
-        [custodianAccountMarketTrade .key]: custodianAccountMarketTrade,
-        [custodianAccountWithdraw.key]: custodianAccountWithdraw
+        [custodianAccountMarketTrade.key]: custodianAccountMarketTrade,
+        [custodianAccountWithdrawToStore.key]: custodianAccountWithdrawToStore
     },
 
     searches: {

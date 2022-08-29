@@ -2,19 +2,16 @@ const Store = require('../../common/Store');
 const CustodianAccount =  require('../../common/CustodianAccount');
 const Util =  require('../../common/Util');
 
-const withdraw = async function (z, bundle) {
-    const storeId = bundle.inputData.store_id;
-    const custodianAccountId = bundle.inputData.custodian_account_id;
-    const paymentMethod = bundle.inputData.payment_method;
-    const qty = bundle.inputData.qty;
-
-    return CustodianAccount.withdraw(z, bundle, storeId, custodianAccountId, paymentMethod, qty);
-}
-
-
 module.exports = {
     operation: {
-        perform: withdraw,
+        perform: async function (z, bundle) {
+            const storeId = bundle.inputData.store_id;
+            const custodianAccountId = bundle.inputData.custodian_account_id;
+            const paymentMethod = bundle.inputData.payment_method;
+            const qty = bundle.inputData.qty;
+
+            return CustodianAccount.withdraw(z, bundle, storeId, custodianAccountId, paymentMethod, qty);
+        },
         inputFields: [
             Store.inputFields.store_id,
             CustodianAccount.inputFields.custodian_account_id,
@@ -63,7 +60,7 @@ module.exports = {
             {key: 'ledgerEntries[]type', label: 'Ledger Entry Type (i.e. Withdrawal, Fee)', type: 'string'}
         ]
     },
-    key: 'CustodianAccountWithdraw',
+    key: 'CustodianAccountWithdrawToStore',
     noun: 'Withdrawal',
     display: {
         label: 'Withdraw From a Custodian Account to Store Wallet (Experimental)',

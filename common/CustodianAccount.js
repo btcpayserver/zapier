@@ -48,7 +48,7 @@ module.exports = {
         return custodianAccount;
     },
 
-    formatWithdrawal: function(withdrawal){
+    formatWithdrawal: function (withdrawal) {
         return withdrawal;
     },
 
@@ -74,17 +74,16 @@ module.exports = {
     getAssetBalance: async function (z, bundle, storeId, custodianAccountId, asset) {
         const account = await this.getById(z, bundle, storeId, custodianAccountId);
 
-        if(account?.assetBalances) {
-            for (let i in account.assetBalances) {
-                let balance = account.assetBalances[i];
-                if (balance.asset === asset) {
-                    return balance;
-                }
+        let qty = 0;
+        if (account?.assetBalances) {
+            let balance = account.assetBalances?.[asset];
+            if (balance) {
+                qty = balance;
             }
         }
         return {
             asset: asset,
-            qty: 0
+            qty: qty
         };
     },
 
