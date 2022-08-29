@@ -73,7 +73,6 @@ module.exports = {
         store: {
             key: 'store',
             noun: 'Store',
-            // ...
             list: {
                 display: {
                     label: 'Stores',

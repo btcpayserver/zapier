@@ -39,7 +39,6 @@ module.exports = {
     },
 
     getAll: function (z, bundle) {
-        // Used for testing and setup. Just return the latest invoice in the same format as you'd normally get (see: perform() method).
         const options = {
             url: bundle.authData.server_url + '/api/v1/stores/',
             method: 'GET',

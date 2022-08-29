@@ -15,8 +15,6 @@ zapier.tools.env.inject();
 
 describe('resources', () => {
     test(App.resources.store.key + ' resource', async () => {
-        const invoiceId = process.env.INVOICE_ID;
-
         let bundle = {
             authData: {
                 server_url: process.env.SERVER_URL,
@@ -26,8 +24,6 @@ describe('resources', () => {
                 secret: '5TjrCfkTgfjY4rJj85bTJj'
             }
         };
-
-        // bundle.rawRequest.headers = {'Http-Btcpay-Sig': Util.calculateHash(bundle)};
 
         const results = await appTester(
             App.resources.store.list.operation.perform,

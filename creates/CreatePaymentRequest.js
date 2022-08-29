@@ -103,6 +103,6 @@ module.exports = {
         label: 'Create Payment Request',
         description: 'Creates a Payment Request',
         hidden: false,
-        important: true,
+        important: false,
     },
 };
