@@ -24,8 +24,6 @@ describe('creates.custodianAccountDeposit', () => {
 
             expect(address).toBeDefined();
             expect(address.address).toBeDefined();
-            expect(address.keyPath).toBeDefined();
-            expect(address.paymentLink).toBeDefined();
 
         }
     );

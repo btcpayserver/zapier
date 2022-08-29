@@ -24,8 +24,6 @@ describe('creates.custodianAccountWithdrawToStore', () => {
 
             const withdrawal = await appTester(App.creates.CustodianAccountWithdrawToStore.operation.perform, bundle);
 
-            // TODO this test does not pass yet...
-
             expect(withdrawal).toBeDefined();
             expect(withdrawal.asset).toBe(asset);
             expect(withdrawal.paymentMethod).toBe(paymentMethod);
