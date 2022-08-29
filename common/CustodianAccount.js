@@ -2,7 +2,7 @@ module.exports = {
     noun: 'Custodian Account',
 
     outputFields: [
-        {key: 'accountId', label: 'Store ID', type: 'string'},
+        {key: 'id', label: 'Custodian Account ID', type: 'string'},
         {key: 'storeId', label: 'Store ID', type: 'string'},
         {key: 'name', label: 'Custodian Account Name', type: 'string'},
         {key: 'custodianCode', label: 'Custodian Code', type: 'string'},
@@ -18,7 +18,7 @@ module.exports = {
             helpText: 'The custodian account ID.',
             required: true,
             altersDynamicFields: false,
-            dynamic: 'custodian_account.accountId.name' // Meaning: resource "custodianAccount" with method "list". The value is in the "accountId" field and the label is in the "name" field.
+            dynamic: 'custodian_account.id.name' // Meaning: resource "custodianAccount" with method "list". The value is in the "accountId" field and the label is in the "name" field.
         }
     },
 
