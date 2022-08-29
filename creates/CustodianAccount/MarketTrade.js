@@ -4,7 +4,7 @@ const Trade =  require('../../common/Trade');
 
 const marketTrade = async function (z, bundle) {
     const serverUrl = bundle.authData.server_url;
-    const storeId = bundle.inputData.storeId;
+    const storeId = bundle.inputData.store_id;
     const custodianAccountId = bundle.inputData.custodianAccountId;
     const qty = bundle.inputData.qty;
     const fromAsset = bundle.inputData.fromAsset;

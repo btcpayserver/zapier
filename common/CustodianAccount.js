@@ -18,6 +18,7 @@ module.exports = {
             helpText: 'The custodian account ID.',
             required: true,
             altersDynamicFields: false,
+            dynamic: 'custodian_account.accountId.name' // Meaning: resource "custodianAccount" with method "list". The value is in the "accountId" field and the label is in the "name" field.
         }
     },
 
@@ -71,15 +72,20 @@ module.exports = {
     },
 
     getAssetBalance: async function (z, bundle, storeId, custodianAccountId, asset) {
-        const account = this.getById(z, bundle, storeId, custodianAccountId);
+        const account = await this.getById(z, bundle, storeId, custodianAccountId);
 
-        for (let i in account.assetBalances) {
-            let balance = account.assetBalances[i];
-            if (balance.asset === asset) {
-                return balance.qty;
+        if(account?.assetBalances) {
+            for (let i in account.assetBalances) {
+                let balance = account.assetBalances[i];
+                if (balance.asset === asset) {
+                    return balance;
+                }
             }
         }
-        return 0;
+        return {
+            asset: asset,
+            qty: 0
+        };
     },
 
 

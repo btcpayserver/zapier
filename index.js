@@ -95,7 +95,7 @@ module.exports = {
                 },
             },
         },
-        custodianAccount: {
+        custodian_account: {
             key: 'custodian_account',
             noun: 'Custodian Account',
             list: {
@@ -106,7 +106,8 @@ module.exports = {
                 },
                 operation: {
                     perform: (z, bundle) => {
-                        // This is called to populate tthe store_id dropdown
+                        // This is called to populate the custodian_account_id dropdown
+                        // TODO listing does not work. Probably because this list depends on the store_id which we cannot access. Read the docs about d
                         const CustodianAccount = require('./common/CustodianAccount.js');
                         return CustodianAccount.getAll(z, bundle);
                     },

@@ -3,10 +3,9 @@ const CustodianAccount =  require('../../common/CustodianAccount');
 const Trade =  require('../../common/Trade');
 
 const getAssetBalance = async function (z, bundle) {
-    const storeId = bundle.inputData.storeId;
+    const storeId = bundle.inputData.store_id;
     const custodianAccountId = bundle.inputData.custodian_account_id;
     const asset = bundle.inputData.asset;
-    const qty = bundle.inputData.qty;
 
     return CustodianAccount.getAssetBalance(z, bundle, storeId, custodianAccountId, asset);
 }
