@@ -46,6 +46,15 @@ module.exports = {
             list: false,
             altersDynamicFields: false,
         },
+        payment_method: {
+            key: 'payment_method',
+            label: 'Payment Method',
+            type: 'string',
+            helpText: 'The payment method is a combination of crypto code + network. Example: BTC-OnChain or LTC-OnChain',
+            required: true,
+            list: false,
+            altersDynamicFields: false,
+        },
     },
 
     outputFields: {

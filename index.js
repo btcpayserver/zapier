@@ -19,9 +19,16 @@ const getStoreLightningNodeUri = require("./creates/GetStoreLightningNodeUri");
 const openStoreLightningChannel = require("./creates/OpenStoreLightningChannel");
 const payLightningInvoice = require("./creates/PayLightningInvoice");
 const createPaymentRequest = require("./creates/CreatePaymentRequest");
+const custodianAccountDeposit = require("./creates/CustodianAccount/Deposit");
+const custodianAccountGetAssetBalance = require("./creates/CustodianAccount/GetAssetBalance");
+const custodianAccountMarketTrade = require("./creates/CustodianAccount/MarketTrade");
+const custodianAccountWithdraw = require("./creates/CustodianAccount/Withdraw");
 
 const findInvoice = require("./searches/FindInvoice");
 const findStore = require("./searches/FindStore");
+const findCustodianAccount = require("./searches/FindCustodianAccount");
+
+const Stores = require("./common/Store");
 
 
 
@@ -88,6 +95,24 @@ module.exports = {
                 },
             },
         },
+        custodianAccount: {
+            key: 'custodian_account',
+            noun: 'Custodian Account',
+            list: {
+                display: {
+                    label: 'Custodian Accounts',
+                    description: 'A list of all custodian accounts',
+                    hidden: true,
+                },
+                operation: {
+                    perform: (z, bundle) => {
+                        // This is called to populate tthe store_id dropdown
+                        const CustodianAccount = require('./common/CustodianAccount.js');
+                        return CustodianAccount.getAll(z, bundle);
+                    },
+                },
+            },
+        },
     },
 
     triggers: {
@@ -113,10 +138,15 @@ module.exports = {
         [openStoreLightningChannel.key]: openStoreLightningChannel,
         [payLightningInvoice.key]: payLightningInvoice,
         [createPaymentRequest.key]: createPaymentRequest,
+        [custodianAccountDeposit.key]: custodianAccountDeposit,
+        [custodianAccountGetAssetBalance.key]: custodianAccountGetAssetBalance,
+        [custodianAccountMarketTrade .key]: custodianAccountMarketTrade,
+        [custodianAccountWithdraw.key]: custodianAccountWithdraw
     },
 
     searches: {
         [findInvoice.key]: findInvoice,
-        [findStore.key]: findStore
+        [findStore.key]: findStore,
+        [findCustodianAccount.key]: findCustodianAccount
     }
 };
