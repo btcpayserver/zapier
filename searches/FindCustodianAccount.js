@@ -17,8 +17,8 @@ module.exports = {
     noun: Store.noun,
 
     display: {
-        label: 'Get Store Details',
-        description: 'Finds a Store for a given ID and get the details.',
+        label: 'Get Custodian Account Details',
+        description: 'Finds a Custodian Account for a given ID and get the details.',
         hidden: false,
         important: false,
     },
