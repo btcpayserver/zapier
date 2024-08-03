@@ -1,32 +1,32 @@
-# Easy Automation for BTCPay Server using Zapier.com - No Programming Skills Required
+# Easy Automation for BTCPay Server using Zapier - No Programming Skills Required
 
-BTCPay Server can be automated in an unlimited number of ways by using it in a [Zapier](https://zapier.com) workflow.
-Zapier is a simple tool for non-technical people to set up automations, simply by connecting blocks.
+Make BTCPay work for you with [Zapier](https://zapier.com)! Automate your business by connecting BTCPay to Zapier, easily setup workflows for payment notifications and many more.
 
 ## Free to Use
-The BTCPay Server Zapier integration is free to use, but you do need a Zapier.com account.
-A free account lets you process 100 actions a month and have 3 workflows called "Zaps".
+Get started automating your business today with a free [Zapier](https://zapier.com) account. 
+On the free plan, you can create up to 3 automated workflows (Zaps) and complete 100 actions each month.
 
-## What does it do?
-The BTCPay Server integration on Zapier defines a number of triggers that can be used to tell other applications what to do. You can chain multiple actions and create an entire workflow.
-Besides triggers, there is also a list of actions to make BTCPay Server do something you want. This can be creating an invoice, for example. In this case the trigger can be something happening on BTCPay Server or in another app or because you received an email.
+## What can you do with BTCPay Server and Zapier?
+With the BTCPay Server integration on Zapier, you can automate a variety of tasks:
+The BTCPay Server integration on Zapier defines a number of triggers that can be used to tell other applications what to do. 
+You can chain multiple actions and create an entire workflow.
+Besides triggers, there is also a list of actions to make BTCPay Server do something you want. 
+This can be creating an invoice, for example. In this case the trigger can be something happening on BTCPay Server or in another app or because you received an email.
 
 A simple automation looks like this:
 ![Sample Workflow in Zapier](./doc/zap-sample1.png)
 
 ## Who is it for?
-Zapier is an easy way for non-technical people to automate their workflow. It is also highly flexible and allows you to experiment.
+Zapier makes automation easy. Even if you aren't tech saavy, you can connect your application and create workflows. However, if you anticipate heavy loads, hiring a developer for a custom integration might be more cost-effective in the long run.
 
-If you are expecting heavy loads however, hiring a developer and building your own custom integration may be cheaper in the long run.
-
-## Some Examples
-- When an invoice is paid in BTCPay Server, automatically send a "Thank You" email.
-- When an invoice is settled, create a payment in your accounting software.
-- When an invoice is paid in BTCPay Server, wait 7 days and then automatically send an email to ask your customer to write a review for your store.
-- At the end of the day, automatically move 75% of your funds from a hot wallet to you cold wallet.
-- When an invoice expires, notify your sales team by sending a message in Slack.
-- Automatically add customer email addresses to your Mailchimp account or other newsletter system.
-- Automatically create a new payment request when a row is inserted in a Google Spreadsheet + send the payment link to your customer via email.
+## Some Use Cases
+- **Thank You Emails:** Automatically send a "Thank You" email when an invoice is paid in BTCPay Server
+- **Integrate with Accounting Software:** Create a payment record in your accounting software when an invoice is settled.
+- **Request Customer Reviews:** After an invoice is paid, a business owner can decide to wait a period of time (say 1-7 days) asking customers for reviews of the products purchased or store experience. This can be achieved with automated emails using BTCPay Server integration with Zapier.
+- **Manage Funds:** At the end of the day, automatically move 75% of your funds from a hot wallet to your cold wallet.
+- **Notify Sales Teams:** When an invoice expires, notify your sales team via Slack.
+- **Build Your Email list:** Automatically add customer email addresses to your Mailchimp account or other newsletter mailing system.
+- **Generate Payment Requests:** Create a new payment request when a row is added in a Google Spreadsheet and send the payment link to your customer via email.
 
 ## Getting Started
 Head over to the [integrations documentation](https://zapier.com/apps/btcpay-server/integrations) to get started. You will see some examples here + a list of all triggers and actions we support. 
@@ -34,22 +34,23 @@ Head over to the [integrations documentation](https://zapier.com/apps/btcpay-ser
 [![BTCPay Server - Zapier](https://img.youtube.com/vi/RylpDWt30uc/mqdefault.jpg "BTCPay Server - Zapier")](https://youtu.be/RylpDWt30uc "BTCPay Server - Zapier")
 
 ## Requirements
-- An account at Zapier.com (free or paid)
-- A BTCPay Server instance where you have 1 or more stores
-- An API key that has access to the store and resources you want to automate (BEWARE: Never grant more permissions than is absolutely needed!). See below which permissions you should pick for your API key.
+To get started with automating BTCPay Server using Zapier, you'll need the following:
+- Zapier Account. Sign up for a free or paid account at [Zapier.com](https://zapier.com)
+- A BTCPay Server instance with at least one store set up.
+- An API key that has access to the store and resources you want to automate. **IMPORTANT:** Only grant the minimum permissions needed for your automation tasks. 
+See the permissions guide below for specific recommendations.
 
 ## Security Considerations
-With great power comes great responsibility. So when you automate your BTCPay Server, you should consider the things that could go wrong or get abused if someone were to get hold of your API Key.
-Because you will be providing Zapier with your API key, we strongly encourage you to create an API key with as little permissions as possible.
-If you are only going to automate a single store, make sure the API key only has access to the resources for that specific store.
-BTCPay Server allows you to configure access per store, so use it.
+When automating tasks with BTCPay Server, you'll be sharing your API key with Zapier, so it's crucial to prioritize security. Create an API key with the least possible permissions
+For example, if you're only automating one store, give the key access to that store only.
+BTCPay Server allows you to control access per store, so take advantage of this feature.
 
-## Which permissions should I choose for my API key?
-Choosing permissions depends on what you are going to do with Zapier. This list helps you make some choices.
+## Recommended API Key Permissions
+Here's a guide to help select the appropriate permissions based on your needs:
 
 If you want to use **triggers**, you will need to have the permission `btcpay.store.webhooks.canmodifywebhooks`. It is easy to overlook this one, but Zapier gets its triggers from a webhook, so that must be allowed.
 
-For the various actions we have, you will need different permissions, like if you want to create or modify an invoice, you will need the `btcpay.store.cancreateinvoice` and `btcpay.store.canmodifyinvoices` permissions.
+For the various actions we have, you will need different permissions. For actions like creating or modifying invoices, you'll need the `btcpay.store.cancreateinvoice` and `btcpay.store.canmodifyinvoices` permissions.
 
 Viewing stores and invoices is also a good idea to add anyway, so those would be `btcpay.store.canviewinvoices` and `btcpay.store.canviewstoresettings`.
 
@@ -58,31 +59,29 @@ A good place to start would be these permissions:
 
 
 ## How does it work technically?
-- Every trigger registers its own webhook in the store it is for. There are no global webhooks in BTCPay Server, only ones per store.
+- Every trigger registers its own webhook in the store it is meant for. BTCPay Server does not support global webhooks; each is unique to a specific store.
 - The webhook only handles the single event it is created for.
-- When you enable the Zap, the webhook is automatically created in BTCPay Server and when you disable, the webhook is deleted.
+- When you enable the Zap, the webhook is automatically created in BTCPay Server. Disabling the Zap will delete the webhook.
 - Each webhook uses its own secret, randomly generated by BTCPay Server.
 - The webhook's request signature `BTCPay-Sig` is used to verify the identity of the sender.
 
 
-## Troubleshooting
+## Troubleshooting Common Issues
 
 ### I got a 403 Forbidden error, what happened?
-You are most likely using an API key that does not have the required permissions. If you are using any of the triggers in Zapier, always make sure you have the `btcpay.store.webhooks.canmodifywebhooks` permission.
+If you encointer a 403 forbidden error, it's likely due to insufficient API key permissions. If you are using any of the triggers in Zapier, always make sure you have the `btcpay.store.webhooks.canmodifywebhooks` permission.
 
 ### I deleted the webhook from my BTCPay Server store by mistake.
 No worries. Just turn your Zap off and on again and the webhook will automatically be recreated in BTCPay Server.
 
-
 ## Source Code, Issues and Feature Requests
-The Zapier integration source code is available on GitHub at the [BTCPay Server Zapier repository](https://github.com/btcpayserver/zapier).
-You can also log issues here and ask for missing features.
-Issues can also be reported through Zapier as you encounter them.
+The Zapier integration source code is available on [GitHub](https://github.com/btcpayserver/zapier).
+You can use the repository to log issues, request new features, or explore the codebase.
+Additionally, you can report issues directly through Zapier as you encounter them.
 
 ## Credits and Support
 The BTCPay Server Zapier integration was developed by [Storefront.be](https://www.storefront.be/en/) in their ongoing effort to support this community.
 
 If you are looking to hire professional support or could use a developer for a custom integration, feel free to reach out at [Storefront.be](https://www.storefront.be/en/).
 
-This repository contains the Zapier integration for BTCPay Server.
-The Zapier integration allows you to use triggers from BTCPay Server (like when a new invoice was created, paid or expired) to trigger actions in other systems, like send an email, post a chat message, etc.
+This repository contains the Zapier integration for BTCPay Server enabling you to automate actions like sending emails or posting chat messages based on triggers from BTCPay Server events (e.g new invoice creation, paid or expiration).
