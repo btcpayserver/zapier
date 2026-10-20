@@ -1,3 +1,13 @@
+## 2.1.0
+
+### New
+- "Find Payment Request" searches a payment request by its ID or reference ID.
+- "Update Payment Request" changes a payment request. Fields left empty keep their current value.
+- "Create Payment Request" has the optional field "Reference ID".
+
+### Fixes
+- An API key without a needed permission no longer makes Zapier report the connection as stale and turn off the Zap. The error names the missing permission. BTCPay Server gives the same error for an ID that is not in the store, which the error also says.
+
 ## 2.0.0
 
 Works with BTCPay Server 2.x and Zapier Platform 19.

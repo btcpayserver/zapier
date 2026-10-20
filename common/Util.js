@@ -64,6 +64,32 @@ module.exports = {
         return result;
     },
 
+    // Throws the error for a response with status >= 400, with the explanation BTCPay Server gives.
+    throwForStatus: function (z, response) {
+        const data = response.data;
+        if (response.status === 401) {
+            throw new z.errors.ExpiredAuthError('BTCPay Server did not accept the API key. Check that the key still exists.');
+        }
+        // Not an ExpiredAuthError: Zapier would call the connection stale and accept the same key again on reconnect.
+        // BTCPay Server also gives this error for an ID that is not in the store, like a wrong invoice ID.
+        if (response.status === 403 && data && data.code === 'missing-permission') {
+            throw new z.errors.Error(data.message + ' BTCPay Server also gives this error for an ID that does not exist in the store.'
+                + ' If the key lacks the permission, reconnect BTCPay Server in Zapier with a new API key that has it.', data.code, response.status);
+        }
+
+        // BTCPay Server explains errors in the body: a list of {path, message} for invalid fields, or one {code, message}.
+        let message = null;
+        if (Array.isArray(data)) {
+            message = data.map((e) => (e.path ? e.path + ': ' : '') + e.message).join(', ');
+        } else if (data && data.message) {
+            message = data.message;
+        }
+        if (message) {
+            throw new z.errors.Error(message, (data && data.code) || 'InvalidData', response.status);
+        }
+        response.throwForStatus();
+    },
+
     validateSignature: function (z, bundle) {
         const requestHash = bundle.rawRequest.headers['Http-Btcpay-Sig'];
         const ourHash = this.calculateHash(bundle);

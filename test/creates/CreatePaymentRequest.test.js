@@ -58,4 +58,31 @@ describe('creates.CreatePaymentRequest', () => {
             //console.log("Created Payment Request ID " + result.id + " in store ID " + storeId);
         }
     );
+
+    // Needs an API key for the store without "btcpay.store.canmodifypaymentrequests", so it only runs when LIMITED_API_KEY is set.
+    const testIfLimitedKey = process.env.LIMITED_API_KEY ? test : test.skip;
+
+    testIfLimitedKey(App.creates.CreatePaymentRequest.key + ' with a key that lacks the permission', async () => {
+            const bundle = {
+                authData: {
+                    server_url: process.env.SERVER_URL,
+                    api_key: process.env.LIMITED_API_KEY
+                },
+                inputData: {
+                    store_id: process.env.STORE_ID,
+                    title: 'Zapier Test Payment Request',
+                    amount: 5,
+                    currency_code: 'EUR',
+                },
+            };
+
+            // The connection test accepts the key, so asking to reconnect would not help: no ExpiredAuthError.
+            await appTester(App.authentication.test, bundle);
+            const error = await appTester(App.creates.CreatePaymentRequest.operation.perform, bundle).catch((e) => e);
+
+            expect(error.name).not.toBe('ExpiredAuthError');
+            expect(error.message).toContain('btcpay.store.canmodifypaymentrequests');
+            expect(error.message).toContain('reconnect BTCPay Server in Zapier with a new API key');
+        }
+    );
 });

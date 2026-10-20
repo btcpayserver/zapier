@@ -58,7 +58,8 @@ The other actions need these permissions:
 | Action | Permission |
 | --- | --- |
 | Mark Invoice Settled / Invalid | `btcpay.store.canmanageinvoicestatus` (included in `btcpay.store.canmodifyinvoices`) |
-| Create Payment Request | `btcpay.store.canmodifypaymentrequests` |
+| Create Payment Request, Update Payment Request | `btcpay.store.canmodifypaymentrequests` |
+| Find Payment Request | `btcpay.store.canviewpaymentrequests` (included in `btcpay.store.canmodifypaymentrequests`) |
 | Get Store On-Chain Wallet Balance, Generate On-Chain Wallet Address | `btcpay.store.canviewwallet` |
 | Create an On-Chain Transaction | `btcpay.store.cancreatetransactions`, `btcpay.store.cansigntransactions` and `btcpay.store.canbroadcasttransactions` |
 | Lightning actions (node URI, address, open channel, pay invoice) | `btcpay.store.canuselightningnode` |
@@ -83,6 +84,15 @@ A good place to start would be these permissions:
 
 ### I got a 403 Forbidden error, what happened?
 You are most likely using an API key that does not have the required permissions. If you are using any of the triggers in Zapier, always make sure you have the `btcpay.store.webhooks.canmodifywebhooks` permission.
+
+The error names the permission that is missing. You cannot add permissions to an existing API key in BTCPay Server, so create a new key that has it and reconnect BTCPay Server in Zapier with that key.
+
+BTCPay Server gives the same error when an ID does not exist in the store, like a wrong invoice ID. So also check the ID that your Zap fills in.
+
+### Zapier says my BTCPay Server connection is stale
+Zapier says this when BTCPay Server no longer accepts the API key, for example because the key was deleted. Create a new API key and reconnect BTCPay Server in Zapier with it.
+
+Before version 2.1.0, a missing permission was also reported as a stale connection, and reconnecting with the same API key did not help. Since 2.1.0 the error names the missing permission instead (see above).
 
 ### I deleted the webhook from my BTCPay Server store by mistake.
 No worries. Just turn your Zap off and on again and the webhook will automatically be recreated in BTCPay Server.

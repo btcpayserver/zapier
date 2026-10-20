@@ -19,11 +19,14 @@ const getStoreLightningNodeUri = require("./creates/GetStoreLightningNodeUri");
 const openStoreLightningChannel = require("./creates/OpenStoreLightningChannel");
 const payLightningInvoice = require("./creates/PayLightningInvoice");
 const createPaymentRequest = require("./creates/CreatePaymentRequest");
+const updatePaymentRequest = require("./creates/UpdatePaymentRequest");
 
 const findInvoice = require("./searches/FindInvoice");
 const findStore = require("./searches/FindStore");
+const findPaymentRequest = require("./searches/FindPaymentRequest");
 
 const Stores = require("./common/Store");
+const Util = require("./common/Util");
 
 
 
@@ -61,24 +64,7 @@ const afterResponse = (response, z) => {
         return response;
     }
 
-    const data = response.data;
-    if (response.status === 401) {
-        throw new z.errors.ExpiredAuthError('BTCPay Server did not accept the API key. Check that the key still exists.');
-    }
-    if (response.status === 403 && data && data.code === 'missing-permission') {
-        throw new z.errors.ExpiredAuthError(data.message);
-    }
-
-    // BTCPay Server explains errors in the body: a list of {path, message} for invalid fields, or one {code, message}.
-    let message = null;
-    if (Array.isArray(data)) {
-        message = data.map((e) => (e.path ? e.path + ': ' : '') + e.message).join(', ');
-    } else if (data && data.message) {
-        message = data.message;
-    }
-    if (message) {
-        throw new z.errors.Error(message, (data && data.code) || 'InvalidData', response.status);
-    }
+    Util.throwForStatus(z, response);
     return response;
 };
 
@@ -133,10 +119,12 @@ module.exports = {
         [openStoreLightningChannel.key]: openStoreLightningChannel,
         [payLightningInvoice.key]: payLightningInvoice,
         [createPaymentRequest.key]: createPaymentRequest,
+        [updatePaymentRequest.key]: updatePaymentRequest,
     },
 
     searches: {
         [findInvoice.key]: findInvoice,
         [findStore.key]: findStore,
+        [findPaymentRequest.key]: findPaymentRequest,
     }
 };

@@ -18,6 +18,7 @@ const createPaymentRequest = async function (z, bundle) {
             description: bundle.inputData.description,
             expiryDate: PaymentRequest.toUnixTimestamp(z, bundle.inputData.expiry_date),
             allowCustomPaymentAmounts: bundle.inputData.allow_custom_payment_amounts,
+            referenceId: bundle.inputData.reference_id,
         }
     };
 
@@ -42,40 +43,13 @@ module.exports = {
         inputFields: [
             Store.inputFields.store_id,
             Util.inputFields.amount,
-            {
-                key: 'title',
-                label: 'Title',
-                type: 'string',
-                required: true,
-            },
+            PaymentRequest.inputFields.title,
             Util.inputFields.currency_code,
-            {
-                key: 'email',
-                label: 'Email',
-                type: 'string',
-                helpText: 'The customer\'s email address.',
-                required: false,
-            },
-            {
-                key: 'description',
-                label: 'Description',
-                type: 'string',
-                required: false,
-            },
-            {
-                key: 'expiry_date',
-                label: 'Expiry Date',
-                type: 'datetime',
-                required: false,
-            },
-            {
-                key: 'allow_custom_payment_amounts',
-                label: 'Allow Custom Payment Amounts',
-                helpText: "Whether to allow users to create invoices that partially pay the payment request.",
-                type: 'boolean',
-                required: false,
-            },
-
+            PaymentRequest.inputFields.email,
+            PaymentRequest.inputFields.description,
+            PaymentRequest.inputFields.expiry_date,
+            PaymentRequest.inputFields.allow_custom_payment_amounts,
+            PaymentRequest.inputFields.reference_id,
         ],
         sample: PaymentRequest.sample,
         outputFields: PaymentRequest.outputFields,
