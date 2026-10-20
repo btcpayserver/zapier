@@ -5,7 +5,10 @@ const appTester = zapier.createAppTester(App);
 zapier.tools.env.inject();
 
 describe('creates.PayLightningInvoice', () => {
-    test(App.creates.GenerateStoreLightningWalletAddress.key, async () => {
+    // Pays a real invoice, so it only runs when BOLT11 is set.
+    const testIfInvoice = process.env.BOLT11 ? test : test.skip;
+
+    testIfInvoice(App.creates.PayLightningInvoice.key, async () => {
             const cryptoCode = 'BTC';
             const storeId = process.env.STORE_ID;
 
@@ -17,14 +20,16 @@ describe('creates.PayLightningInvoice', () => {
                 inputData: {
                     store_id: storeId,
                     crypto_code: cryptoCode,
-                    bolt11: "xxx" // TODO enter a sample BOLT11 invoice
+                    bolt11: process.env.BOLT11
                 },
             }
 
             const result = await appTester(App.creates.PayLightningInvoice.operation.perform, bundle);
 
             expect(result).toBeDefined();
-            expect(result.paid).toBeDefined();
+            expect(result.paid).toBe(true);
+            expect(result.status).toBe('Complete');
+            expect(result.paymentHash).toBeDefined();
         }
     );
 });

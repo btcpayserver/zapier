@@ -8,7 +8,7 @@ zapier.tools.env.inject();
 describe('creates.CreateUser', () => {
     test(App.creates.CreateUser.key, async () => {
             const email = Util.randomText(8) + '@example.com';
-            const password = Util.randomText(8);
+            const name = 'Zapier Test User';
             const isAdministrator = false;
 
             const bundle = {
@@ -19,8 +19,10 @@ describe('creates.CreateUser', () => {
                 rawRequest: {},
                 inputData: {
                     email: email,
-                    password: password,
-                    is_administrator: isAdministrator
+                    name: name,
+                    is_administrator: isAdministrator,
+                    // A test server may not have email settings.
+                    send_invitation_email: false
                 },
             }
 
@@ -35,11 +37,14 @@ describe('creates.CreateUser', () => {
 
             expect(user).toBeDefined();
             expect(user.id).toBeDefined();
-            expect(user.email).toBeDefined();
+            expect(user.email).toBe(email);
+            expect(user.name).toBe(name);
             expect(user.emailConfirmed).toBeDefined();
             expect(user.requiresEmailConfirmation).toBeDefined();
             expect(user.created).toBeDefined();
             expect(user.roles).toBeDefined();
+            // Without a password, BTCPay Server gives an invitation link to set one.
+            expect(user.invitationUrl).toContain('/invite/');
         }
     );
 });

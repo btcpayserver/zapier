@@ -25,6 +25,5 @@ module.exports = {
         label: 'Invoice Expired',
         description: 'Triggers when an invoice expires, meaning the customer did not pay in the time he or she was supposed to.',
         hidden: false,
-        important: true,
     },
 };

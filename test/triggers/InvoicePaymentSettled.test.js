@@ -27,25 +27,35 @@ describe('triggers', () => {
                 secret: '5TjrCfkTgfjY4rJj85bTJj'
             },
             rawRequest: {
-                content: '{\n' +
-                    '  "deliveryId": "PENf2czGBzTepjzSJdt6Nz",\n' +
-                    '  "webhookId": "6KQ4EmzqKowRgyBL65TwJg",\n' +
-                    '  "originalDeliveryId": "PENf2czGBzTepjzSJdt6Nz",\n' +
-                    '  "isRedelivery": false,\n' +
-                    '  "type": "'+App.triggers.InvoicePaymentSettled.key+'",\n' +
-                    '  "timestamp": 1623954207,\n' +
-                    '  "storeId": "Hf9GvFK2dHJehm9J8A6kYfbc1ruc5jEZBKEr9r7jsrLo",\n' +
-                    '  "invoiceId": "'+invoiceId+'"\n' +
-                    '}' // Hard coded because it is used to calculate the "BTCPay-Sig"
-            },
-            cleanedRequest: {
-                invoiceId: invoiceId,
+                // A payload as sent by BTCPay Server 2.x. Hard coded because it is used to calculate the "BTCPay-Sig".
+                content: JSON.stringify({
+                    afterExpiration: false,
+                    paymentMethodId: 'BTC-CHAIN',
+                    payment: {
+                        id: '523d18e95b173bf5818a64615b548cf577529b2b9f1db2a4bc5bfeadffb2b007-0',
+                        receivedDate: 1792499889,
+                        value: '0.00003446',
+                        fee: '0',
+                        status: 'Settled',
+                        destination: 'bcrt1q5hlwyh04kp2kz68juw3z8avnu2wr0a29425ua2'
+                    },
+                    deliveryId: 'NXhSx3j97Aqndo49N85U73',
+                    webhookId: 'LZVfsb2u7n5wpGbF7WkRG4',
+                    originalDeliveryId: 'NXhSx3j97Aqndo49N85U73',
+                    isRedelivery: false,
+                    type: App.triggers.InvoicePaymentSettled.key,
+                    timestamp: 1792499889,
+                    storeId: process.env.STORE_ID,
+                    invoiceId: invoiceId,
+                    metadata: {}
+                })
             },
             inputData: {
                 store_id: process.env.STORE_ID
             },
         };
 
+        bundle.cleanedRequest = JSON.parse(bundle.rawRequest.content);
         bundle.rawRequest.headers = {'Http-Btcpay-Sig': Util.calculateHash(bundle)};
 
         const results = await appTester(
@@ -59,6 +69,13 @@ describe('triggers', () => {
         expect(invoice.storeId).toBe(process.env.STORE_ID);
         expect(invoice.amount).toBeGreaterThan(0);
         expect(invoice.checkoutLink).toBeDefined();
+
+        expect(invoice.trigger.receivedAfterExpiration).toBe(false);
+        expect(invoice.trigger.paymentMethodId).toBe('BTC-CHAIN');
+        expect(invoice.trigger.payment.value).toBe(0.00003446);
+        expect(invoice.trigger.payment.fee).toBe(0);
+        expect(invoice.trigger.payment.status).toBe('Settled');
+        expect(invoice.trigger.payment.receivedDate).toBe('2026-10-20T12:38:09.000Z');
     });
 
     test(App.triggers.InvoicePaymentSettled.key + ' list sample data', async () => {

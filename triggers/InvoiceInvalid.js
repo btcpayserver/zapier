@@ -25,6 +25,5 @@ module.exports = {
         label: 'Invoice Invalid',
         description: 'Triggers when an invoice becomes invalid.', // TODO add some more explanation what "invalid" means...
         hidden: false,
-        important: false,
     },
 };

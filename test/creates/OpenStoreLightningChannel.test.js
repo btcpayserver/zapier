@@ -5,7 +5,10 @@ const appTester = zapier.createAppTester(App);
 zapier.tools.env.inject();
 
 describe('creates.OpenStoreLightningChannel', () => {
-    it(App.creates.OpenStoreLightningChannel.key, async () => {
+    // Opens a real channel, so it only runs when LIGHTNING_NODE_URI is set.
+    const itIfNode = process.env.LIGHTNING_NODE_URI ? it : it.skip;
+
+    itIfNode(App.creates.OpenStoreLightningChannel.key, async () => {
 
         const bundle = {
             authData: {
@@ -15,8 +18,8 @@ describe('creates.OpenStoreLightningChannel', () => {
             inputData: {
                 store_id: process.env.STORE_ID,
                 crypto_code: 'BTC',
-                node_uri: '',
-                amount: 0.001,
+                node_uri: process.env.LIGHTNING_NODE_URI,
+                amount: 100000,
                 fee_rate: 1,
             },
         }

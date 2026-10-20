@@ -1,27 +1,29 @@
 module.exports = {
     noun: 'User',
 
-    create: async function (z, serverUrl, email, password, is_administrator) {
+    create: async function (z, serverUrl, email, name, is_administrator, send_invitation_email) {
         const options = {
             url: serverUrl + '/api/v1/users/',
             method: 'POST',
             params: {},
             body: {
                 email: email,
-                password: password,
+                name: name,
                 isAdministrator: is_administrator,
+                // Without a password BTCPay Server invites the user to set one.
+                sendInvitationEmail: String(send_invitation_email) !== 'false',
             }
         };
 
         let response = await z.request(options);
         if (response.status === 201) {
-            return this.format(response.json);
+            return this.format(response.data);
         } else if (response.status === 403) {
-            throw new z.errors.Error('Forbidden. Invoice could not be created.', 'Forbidden', response.status);
+            throw new z.errors.Error('Forbidden. User could not be created.', 'Forbidden', response.status);
         } else {
             let errorMsg = 'Error: ';
-            for (let i = 0; i < response.json.length; i++) {
-                errorMsg += response.json[i].message + ', ';
+            for (let i = 0; i < response.data.length; i++) {
+                errorMsg += response.data[i].message + ', ';
             }
             throw new z.errors.Error(errorMsg, 'InvalidData', response.status);
         }
@@ -44,7 +46,7 @@ module.exports = {
     //     };
     //
     //     return z.request(options).then((response) => {
-    //         let results = response.json;
+    //         let results = response.data;
     //
     //         for (let i = 0; i < results.length; i++) {
     //             results[i] = module.exports.format(results[i]);
@@ -60,6 +62,10 @@ module.exports = {
         {key: 'requiresEmailConfirmation', label: 'Requires Email Confirmation', type: 'boolean'},
         {key: 'created', label: 'Creation Date', type: 'datetime'},
         {key: 'roles[]', label: 'Roles', type: 'string'},
+        {key: 'name', label: 'Name', type: 'string'},
+        {key: 'approved', label: 'Approved', type: 'boolean'},
+        {key: 'disabled', label: 'Disabled', type: 'boolean'},
+        {key: 'invitationUrl', label: 'Invitation URL', type: 'string'},
     ],
 
 }

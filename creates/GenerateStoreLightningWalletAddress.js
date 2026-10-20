@@ -14,7 +14,7 @@ const generateStoreLightningWalletAddress = async function (z, bundle) {
 
     let response = await z.request(options);
     if (response.status === 200) {
-        const address = response.json;
+        const address = response.data;
         return {address: address};
 
     } else if (response.status === 404) {
@@ -25,8 +25,8 @@ const generateStoreLightningWalletAddress = async function (z, bundle) {
 
     } else {
         let errorMsg = 'Error';
-        // for (let i = 0; i < response.json.length; i++) {
-        //     errorMsg += response.json[i].message + ', ';
+        // for (let i = 0; i < response.data.length; i++) {
+        //     errorMsg += response.data[i].message + ', ';
         // }
         throw new z.errors.Error(errorMsg, 'InvalidData', response.status);
     }
@@ -41,7 +41,7 @@ module.exports = {
             CryptoCode.inputFields.crypto_code,
         ],
         sample: {
-            c: 'bc1qxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+            address: 'bc1qxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
         },
         outputFields: [
             Util.outputFields.address
@@ -53,6 +53,5 @@ module.exports = {
         label: 'Generate Store\'s Lightning Wallet Address',
         description: 'Generates a new address for a store\'s lightning wallet.',
         hidden: false,
-        important: false,
     },
 };

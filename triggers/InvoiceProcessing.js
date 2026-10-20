@@ -25,6 +25,5 @@ module.exports = {
         label: 'Invoice Processing',
         description: 'Triggers when an invoice is fully paid, but doesn\'t have the required amount of confirmations on the blockchain yet according to your store\'s settings.',
         hidden: false,
-        important: false,
     },
 };

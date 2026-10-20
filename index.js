@@ -19,14 +19,9 @@ const getStoreLightningNodeUri = require("./creates/GetStoreLightningNodeUri");
 const openStoreLightningChannel = require("./creates/OpenStoreLightningChannel");
 const payLightningInvoice = require("./creates/PayLightningInvoice");
 const createPaymentRequest = require("./creates/CreatePaymentRequest");
-const custodianAccountDeposit = require("./creates/CustodianAccount/Deposit");
-const custodianAccountGetAssetBalance = require("./creates/CustodianAccount/GetAssetBalance");
-const custodianAccountMarketTrade = require("./creates/CustodianAccount/MarketTrade");
-const custodianAccountWithdrawToStore = require("./creates/CustodianAccount/WithdrawToStore");
 
 const findInvoice = require("./searches/FindInvoice");
 const findStore = require("./searches/FindStore");
-const findCustodianAccount = require("./searches/FindCustodianAccount");
 
 const Stores = require("./common/Store");
 
@@ -57,13 +52,32 @@ const beforeRequest = (request, z, bundle) => {
 
 const afterResponse = (response, z) => {
 
-    // TODO refactor error handling for all calls! Start using "HaltedError" and "ExpiredAuthError" instead of always using "Error", which turns off the zap entirely!!
     // Error - Stops the current operation, allowing for (auto) replay. Read more on General Errors
     // HaltedError - Stops current operation, but will never turn off Zap. Read more on Halting Execution
     // ExpiredAuthError - Turns off Zap and emails user to manually reconnect. Read more on Stale Authentication Credentials
 
-    if (response.status === 403 && 'missing-permission' === response.json.code) {
-        throw new z.errors.ExpiredAuthError(response.json.message);
+    // Zapier throws for every status >= 400 after this middleware, unless the request handles errors itself.
+    if (response.status < 400 || response.skipThrowForStatus) {
+        return response;
+    }
+
+    const data = response.data;
+    if (response.status === 401) {
+        throw new z.errors.ExpiredAuthError('BTCPay Server did not accept the API key. Check that the key still exists.');
+    }
+    if (response.status === 403 && data && data.code === 'missing-permission') {
+        throw new z.errors.ExpiredAuthError(data.message);
+    }
+
+    // BTCPay Server explains errors in the body: a list of {path, message} for invalid fields, or one {code, message}.
+    let message = null;
+    if (Array.isArray(data)) {
+        message = data.map((e) => (e.path ? e.path + ': ' : '') + e.message).join(', ');
+    } else if (data && data.message) {
+        message = data.message;
+    }
+    if (message) {
+        throw new z.errors.Error(message, (data && data.code) || 'InvalidData', response.status);
     }
     return response;
 };
@@ -94,25 +108,6 @@ module.exports = {
                 },
             },
         },
-        custodian_account: {
-            key: 'custodian_account',
-            noun: 'Custodian Account',
-            list: {
-                display: {
-                    label: 'Custodian Accounts',
-                    description: 'A list of all custodian accounts',
-                    hidden: true,
-                },
-                operation: {
-                    perform: (z, bundle) => {
-                        // This is called to populate the custodian_account_id dropdown
-                        // TODO listing does not work. Probably because this list depends on the store_id which we cannot access. Read the docs about d
-                        const CustodianAccount = require('./common/CustodianAccount.js');
-                        return CustodianAccount.getAll(z, bundle);
-                    },
-                },
-            },
-        },
     },
 
     triggers: {
@@ -138,15 +133,10 @@ module.exports = {
         [openStoreLightningChannel.key]: openStoreLightningChannel,
         [payLightningInvoice.key]: payLightningInvoice,
         [createPaymentRequest.key]: createPaymentRequest,
-        [custodianAccountDeposit.key]: custodianAccountDeposit,
-        [custodianAccountGetAssetBalance.key]: custodianAccountGetAssetBalance,
-        [custodianAccountMarketTrade.key]: custodianAccountMarketTrade,
-        [custodianAccountWithdrawToStore.key]: custodianAccountWithdrawToStore
     },
 
     searches: {
         [findInvoice.key]: findInvoice,
         [findStore.key]: findStore,
-        [findCustodianAccount.key]: findCustodianAccount
     }
 };

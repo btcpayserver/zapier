@@ -9,34 +9,13 @@ const performSubscribe = function (z, bundle) {
     return Util.performSubscribe(z, bundle, eventName);
 }
 
-let outputFields = Invoice.outputFields;
-outputFields.push({
-    key: 'trigger__receivedAfterExpiration',
-    label: 'Payment received after expiration',
-    type: 'boolean'
-});
-
-for(let i = 0; i < Payment.outputFields.length; i++){
-    outputFields.push(Payment.outputFields[i]);
-}
-
-// TODO add all payment fields
-// outputFields.push({
-//     key: 'trigger__payment',
-//     label: 'Payment received after expiration',
-//     type: 'boolean'
-// });
-
-let sample = Invoice.sample;
-sample.trigger = {
-    receivedAfterExpiration: false,
-    // TODO add payment sample
-    payment: Invoice.paymentSample
-};
+// Copies, so the invoice fields and sample used by the other triggers stay unchanged.
+const outputFields = Invoice.outputFields.concat(Payment.outputFields);
+const sample = Object.assign({}, Invoice.sample, {trigger: Payment.sample});
 
 module.exports = {
     operation: {
-        perform: Invoice.performForOne,
+        perform: Payment.performForInvoicePayment,
         performList: Invoice.getSampleData,
         inputFields: [Store.inputFields.store_id],
         type: 'hook',
@@ -51,6 +30,5 @@ module.exports = {
         label: 'Payment Received',
         description: 'Triggers when a full or partial payment was received. The payment is not settled yet, meaning it does not have enough confirmations on the blockchain yet.',
         hidden: false,
-        important: false,
     },
 };

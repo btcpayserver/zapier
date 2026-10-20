@@ -18,7 +18,7 @@ const perform = async (z, bundle) => {
         let torUri = null;
         let clearnetUri = null;
 
-        let uris = response.json.nodeURIs;
+        let uris = response.data.nodeURIs;
         for (let i = 0; i < uris.length; i++) {
             let uri = uris[i];
             if (uri.indexOf('.onion:') < 0) {
@@ -53,7 +53,6 @@ module.exports = {
         label: 'Get Store Lightning Node URI',
         description: 'Get the clearnet and tor URI of your store\'s lightning node.',
         hidden: false,
-        important: false,
     },
 
     operation: {

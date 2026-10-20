@@ -25,6 +25,5 @@ module.exports = {
         label: 'Invoice Settled',
         description: 'Triggers when an invoice is fully paid and has enough confirmations on the blockchain according to your store\'s configuration, making the invoice settled.',
         hidden: false,
-        important: true,
     },
 };

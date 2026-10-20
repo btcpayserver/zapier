@@ -12,7 +12,7 @@ module.exports = {
 
         let response = await z.request(options);
         if (response.status === 200) {
-            return this.format(response.json, storeId);
+            return this.format(response.data, storeId);
         } else {
             throw new z.errors.Error('Invoice could not be found.', 'NotFound', 404);
         }
@@ -48,13 +48,13 @@ module.exports = {
         let response = await z.request(options);
 
         if (response.status === 200) {
-            return this.format(response.json);
+            return this.format(response.data);
         } else if (response.status === 403) {
             throw new z.errors.Error('Forbidden. Invoice could not be created.', 'Forbidden', response.status);
         } else {
             let errorMsg = 'Error: ';
-            for (let i = 0; i < response.json.length; i++) {
-                errorMsg += response.json[i].message + ', ';
+            for (let i = 0; i < response.data.length; i++) {
+                errorMsg += response.data[i].message + ', ';
             }
             throw new z.errors.Error(errorMsg, 'InvalidData', response.status);
         }
@@ -72,6 +72,9 @@ module.exports = {
 
     format: function (invoice) {
         invoice.amount = Number(invoice.amount);
+        if (invoice.paidAmount !== undefined) {
+            invoice.paidAmount = Number(invoice.paidAmount);
+        }
         invoice.monitoringExpiration = new Date(invoice.monitoringExpiration * 1000).toISOString();
         invoice.expirationTime = new Date(invoice.expirationTime * 1000).toISOString();
         invoice.createdTime = new Date(invoice.createdTime * 1000).toISOString();
@@ -83,12 +86,15 @@ module.exports = {
         const options = {
             url: bundle.authData.server_url + '/api/v1/stores/' + encodeURI(bundle.inputData.store_id) + '/invoices',
             method: 'GET',
-            params: {},
+            params: {
+                // The newest invoices are enough for sample data.
+                take: 25
+            },
             body: {},
         };
 
         return z.request(options).then((response) => {
-            let results = response.json;
+            let results = response.data;
 
             for (let i = 0; i < results.length; i++) {
                 results[i] = module.exports.format(results[i], bundle.inputData.store_id);
@@ -109,13 +115,14 @@ module.exports = {
 
         let response = await z.request(options);
         if (response.status === 200) {
-            return this.format(response.json, bundle.inputData.store_id);
+            // BTCPay Server 2.4 answers with the invoice as it was before the change, so load it again.
+            return this.getById(z, bundle, bundle.inputData.store_id, invoice_id);
         } else if (response.status === 403) {
-            throw new z.errors.Error('Forbidden. Invoice could not be marked as invalid.', 'Forbidden', response.status);
+            throw new z.errors.Error('Forbidden. Invoice status could not be changed.', 'Forbidden', response.status);
         } else {
             let errorMsg = 'Error: ';
-            for (let i = 0; i < response.json.length; i++) {
-                errorMsg += response.json[i].message + ', ';
+            for (let i = 0; i < response.data.length; i++) {
+                errorMsg += response.data[i].message + ', ';
             }
             throw new z.errors.Error(errorMsg, 'InvalidData', response.status);
         }
@@ -125,6 +132,7 @@ module.exports = {
         {key: 'id', label: 'Invoice ID', type: 'string'},
         {key: 'storeId', label: 'Store ID', type: 'string'},
         {key: 'metadata__orderId', label: 'Order ID', type: 'string'},
+        {key: 'metadata__orderUrl', label: 'Order URL', type: 'string'},
         {key: 'metadata__posData', label: 'POS Data', type: 'string'},
         {key: 'metadata__itemDesc', label: 'Item Description', type: 'string'},
         {key: 'metadata__buyerEmail', label: 'Buyer Email', type: 'string'},
@@ -135,12 +143,13 @@ module.exports = {
         {key: 'metadata__buyerCity', label: 'Buyer City', type: 'string'},
         {key: 'metadata__buyerState', label: 'Buyer State', type: 'string'},
         {key: 'metadata__buyerCountry', label: 'Buyer Country', type: 'string'},
+        {key: 'metadata__buyerPhone', label: 'Buyer Phone', type: 'string'},
         {key: 'archived', label: 'Is Achived', type: 'boolean'},
         {key: 'checkout__speedPolicy', label: 'Speed Policy', type: 'string'},
         {key: 'availableStatusesForManualMarking[]', label: 'Available Statuses for Manual Marking', type: 'string'},
         {key: 'checkout__paymentMethods[]', label: 'Payment Method', type: 'string'},
-        {key: 'checkout__expirationMinutes', label: 'Expiration Minutes', type: 'string'},
-        {key: 'checkout__monitoringMinutes', label: 'Monitoring Minutes', type: 'string'},
+        {key: 'checkout__expirationMinutes', label: 'Expiration Minutes', type: 'integer'},
+        {key: 'checkout__monitoringMinutes', label: 'Monitoring Minutes', type: 'integer'},
         {key: 'checkout__paymentTolerance', label: 'Payment Tolerance', type: 'number'},
         {key: 'checkout__redirectURL', label: 'Redirect URL', type: 'string'},
         {key: 'checkout__redirectAutomatically', label: 'Redirect Automatically', type: 'boolean'},
@@ -150,6 +159,8 @@ module.exports = {
         {key: 'additionalStatus', label: 'Additional Status', type: 'string'},
         {key: 'createdTime', label: 'Invoice Created At', type: 'datetime'},
         {key: 'amount', label: 'Amount', type: 'number'},
+        {key: 'paidAmount', label: 'Paid Amount', type: 'number'},
+        {key: 'type', label: 'Invoice Type', type: 'string'},
         {key: 'currency', label: 'Currency', type: 'string'},
         {key: 'expirationTime', label: 'Invoice Expiration', type: 'datetime'},
         {key: 'monitoringExpiration', label: 'Monitoring Expiration', type: 'datetime'},
@@ -164,6 +175,8 @@ module.exports = {
         "expirationTime": "2021-07-08T12:32:24.000Z",
         "monitoringExpiration": "2021-07-08T13:17:24.000Z",
         "amount": 6.15,
+        "paidAmount": 0,
+        "type": "Standard",
         "currency": "EUR",
         "availableStatusesForManualMarking": [
             "Settled",
@@ -184,7 +197,7 @@ module.exports = {
         },
         "checkout": {
             "speedPolicy": "MediumSpeed",
-            "paymentMethods": ["BTC", "BTC-LightningNetwork"],
+            "paymentMethods": ["BTC-CHAIN", "BTC-LN"],
             "expirationMinutes": 15,
             "monitoringMinutes": 60,
             "paymentTolerance": 0.0,

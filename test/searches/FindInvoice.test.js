@@ -48,5 +48,23 @@ describe('searches.FindInvoice', () => {
     expect(invoice.storeId).toBe(process.env.STORE_ID);
     expect(invoice.amount).toBeGreaterThan(0);
     expect(invoice.checkoutLink).toBeDefined();
+    expect(invoice.metadata.orderId).toBe(process.env.ORDER_ID);
+  });
+
+  it(App.searches.FindInvoice.key + ' without a match', async () => {
+    const bundle = {
+      authData: {
+        server_url: process.env.SERVER_URL,
+        api_key: process.env.API_KEY
+      },
+      inputData: {
+        store_id: process.env.STORE_ID,
+        order_id: 'ORDER_THAT_DOES_NOT_EXIST'
+      },
+    }
+
+    const results = await appTester(App.searches.FindInvoice.operation.perform, bundle);
+
+    expect(results).toEqual([]);
   });
 });

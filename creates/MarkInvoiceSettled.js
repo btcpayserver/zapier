@@ -21,7 +21,7 @@ module.exports = {
         sample: {
             id: 'VDdmfYJzJm9VtqW8hqhypF',
             checkoutLink: 'https://mybtcpayserver.com/i/VDdmfYJzJm9VtqW8hqhypF',
-            status: 'Complete',
+            status: 'Settled',
             additionalStatus: 'None',
             createdTime: "2021-07-08T12:17:24.000Z",
             expirationTime: "2021-07-08T12:32:24.000Z",
@@ -31,7 +31,7 @@ module.exports = {
             metadata: {},
             checkout: {
                 speedPolicy: 'MediumSpeed',
-                paymentMethods: ['BTC', 'BTC-LightningNetwork'],
+                paymentMethods: ['BTC-CHAIN', 'BTC-LN'],
                 expirationMinutes: 15,
                 monitoringMinutes: 60,
                 paymentTolerance: 0,
@@ -47,6 +47,5 @@ module.exports = {
     display: {
         label: 'Mark Invoice Settled',
         description: 'Marks an invoice as settled',
-        important: false,
     },
 };

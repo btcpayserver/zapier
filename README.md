@@ -35,7 +35,7 @@ Head over to the [integrations documentation](https://zapier.com/apps/btcpay-ser
 
 ## Requirements
 - An account at Zapier.com (free or paid)
-- A BTCPay Server instance where you have 1 or more stores
+- A BTCPay Server instance running version 2.0 or newer, where you have 1 or more stores
 - An API key that has access to the store and resources you want to automate (BEWARE: Never grant more permissions than is absolutely needed!). See below which permissions you should pick for your API key.
 
 ## Security Considerations
@@ -52,6 +52,20 @@ If you want to use **triggers**, you will need to have the permission `btcpay.st
 For the various actions we have, you will need different permissions, like if you want to create or modify an invoice, you will need the `btcpay.store.cancreateinvoice` and `btcpay.store.canmodifyinvoices` permissions.
 
 Viewing stores and invoices is also a good idea to add anyway, so those would be `btcpay.store.canviewinvoices` and `btcpay.store.canviewstoresettings`.
+
+The other actions need these permissions:
+
+| Action | Permission |
+| --- | --- |
+| Mark Invoice Settled / Invalid | `btcpay.store.canmanageinvoicestatus` (included in `btcpay.store.canmodifyinvoices`) |
+| Create Payment Request | `btcpay.store.canmodifypaymentrequests` |
+| Get Store On-Chain Wallet Balance, Generate On-Chain Wallet Address | `btcpay.store.canviewwallet` |
+| Create an On-Chain Transaction | `btcpay.store.cancreatetransactions`, `btcpay.store.cansigntransactions` and `btcpay.store.canbroadcasttransactions` |
+| Lightning actions (node URI, address, open channel, pay invoice) | `btcpay.store.canuselightningnode` |
+| Create User | `btcpay.server.cancreateuser` (making an administrator needs `unrestricted`) |
+
+The wallet permissions exist since BTCPay Server 2.4. On older versions, the wallet actions need `btcpay.store.canmodifystoresettings`.
+To send from a hot wallet with an API key that is not `unrestricted`, the server administrator must allow non-admins to use hot wallets in the server policies.
 
 A good place to start would be these permissions:
 ![Example API Permissions](./doc/ExampleApiPermissions.jpeg)

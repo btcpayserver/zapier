@@ -1,65 +1,53 @@
+const Invoice = require('./Invoice');
+
 module.exports = {
     noun: 'Invoice',
 
-
+    // The payment that BTCPay Server sends along with the "InvoiceReceivedPayment" and "InvoicePaymentSettled" webhooks.
     outputFields: [
-        {key: 'paymentMethod', label: 'Payment Method', type: 'string'}, // TODO check this
-        {key: 'cryptoCode', label: 'Cryptocurrency Code', type: 'string'}, // TODO check this
-        {key: 'destination', label: 'Destination', type: 'string'}, // TODO check this
-        {key: 'paymentLink', label: 'Payment Link', type: 'string'}, // TODO check this
-        {key: 'rate', label: 'Fee Rate', type: 'string'}, // TODO check this
-        {key: 'paymentMethodPaid', label: 'Payment Method Paid', type: 'string'}, // TODO check this
-        {key: 'totalPaid', label: 'Total Paid', type: 'string'}, // TODO check this
-        {key: 'due', label: 'Due', type: 'string'}, // TODO check this
-        {key: 'amount', label: 'Amount Paid', type: 'string'}, // TODO check this
-        {key: 'networkFee', label: 'Network Fee', type: 'string'}, // TODO check this
-
-        // {key: 'metadata__orderId', label: 'Order ID', type: 'string'},
-        // {key: 'metadata__posData', label: 'POS Data', type: 'string'},
-        // {key: 'metadata__itemDesc', label: 'Item Description', type: 'string'},
-        // {key: 'metadata__buyerEmail', label: 'Buyer Email', type: 'string'},
-        // {key: 'metadata__buyerName', label: 'Buyer Name', type: 'string'},
-        // {key: 'metadata__physical', label: 'Is Physical', type: 'boolean'},
-        // {key: 'metadata__taxIncluded', label: 'Tax Amount Included', type: 'boolean'}, // TODO This field is not in the Greenfield API docs. Should we remove it using format() ?
-        // {key: 'checkout__speedPolicy', label: 'Speed Policy', type: 'string'},
-        // {key: 'checkout__paymentMethods[]', label: 'Payment Method', type: 'string'},
-        // {key: 'checkout__expirationMinutes', label: 'Expiration Minutes', type: 'string'},
-        // {key: 'checkout__monitoringMinutes', label: 'Monitoring Minutes', type: 'string'},
-        // {key: 'checkout__paymentTolerance', label: 'Payment Tolerance', type: 'number'},
-        // {key: 'checkout__redirectURL', label: 'Redirect URL', type: 'string'},
-        // {key: 'checkout__redirectAutomatically', label: 'Redirect Automatically', type: 'boolean'},
-        // {key: 'checkout__defaultLanguage', label: 'Default Language', type: 'string'}, // TODO This field may be abandoned once we have auto language detection? Should we remove it using format() ?
-        // {key: 'checkoutLink', label: 'Payment URL', type: 'string'},
-        // {key: 'status', label: 'Status', type: 'string'},
-        // {key: 'additionalStatus', label: 'Additional Status', type: 'string'},
-        // {key: 'createdTime', label: 'Invoice Created At', type: 'datetime'},
-        // {key: 'amount', label: 'Amount', type: 'number'},
-        // {key: 'currency', label: 'Currency', type: 'string'},
-        // {key: 'expirationTime', label: 'Invoice Expiration', type: 'datetime'},
-        // {key: 'monitoringExpiration', label: 'Monitoring Expiration', type: 'datetime'},
+        {key: 'trigger__receivedAfterExpiration', label: 'Payment received after expiration', type: 'boolean'},
+        {key: 'trigger__paymentMethodId', label: 'Payment Method', type: 'string'},
+        {key: 'trigger__payment__id', label: 'Payment ID', type: 'string'},
+        {key: 'trigger__payment__receivedDate', label: 'Payment Received At', type: 'datetime'},
+        {key: 'trigger__payment__value', label: 'Payment Amount', type: 'number'},
+        {key: 'trigger__payment__fee', label: 'Payment Fee', type: 'number'},
+        {key: 'trigger__payment__status', label: 'Payment Status', type: 'string'},
+        {key: 'trigger__payment__destination', label: 'Payment Destination', type: 'string'},
     ],
+
     sample: {
-        "paymentMethod": "string",
-        "cryptoCode": "BTC",
-        "destination": "string",
-        "paymentLink": "string",
-        "rate": "string",
-        "paymentMethodPaid": "string",
-        "totalPaid": "string",
-        "due": "string",
-        "amount": "string",
-        "networkFee": "string",
-        "payments": [
-            {
-                "id": "string",
-                "receivedDate": 1592312018,
-                "value": "string",
-                "fee": "string",
-                "status": "Invalid",
-                "destination": "string"
-            }
-        ],
-        "activated": true
+        receivedAfterExpiration: false,
+        paymentMethodId: 'BTC-CHAIN',
+        payment: {
+            id: '523d18e95b173bf5818a64615b548cf577529b2b9f1db2a4bc5bfeadffb2b007-0',
+            receivedDate: '2021-07-08T12:20:24.000Z',
+            value: 0.00013787,
+            fee: 0,
+            status: 'Processing',
+            destination: 'bc1qxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+        }
     },
 
+    formatTrigger: function (webhook) {
+        const payment = webhook.payment || {};
+        return {
+            receivedAfterExpiration: webhook.afterExpiration,
+            // BTCPay Server 1.x called this field "paymentMethod".
+            paymentMethodId: webhook.paymentMethodId || webhook.paymentMethod,
+            payment: {
+                id: payment.id,
+                receivedDate: payment.receivedDate ? new Date(payment.receivedDate * 1000).toISOString() : null,
+                value: Number(payment.value),
+                fee: Number(payment.fee),
+                status: payment.status,
+                destination: payment.destination
+            }
+        };
+    },
+
+    performForInvoicePayment: async function (z, bundle) {
+        const results = await Invoice.performForOne(z, bundle);
+        results[0].trigger = module.exports.formatTrigger(bundle.cleanedRequest);
+        return results;
+    },
 }

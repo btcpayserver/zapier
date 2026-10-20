@@ -25,6 +25,5 @@ module.exports = {
         label: 'Invoice Created',
         description: 'Triggers when a new invoice is created.',
         hidden: false,
-        important: true,
     },
 };

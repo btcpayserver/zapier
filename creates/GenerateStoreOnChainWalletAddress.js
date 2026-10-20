@@ -5,23 +5,24 @@ const Util = require('../common/Util');
 const generateStoreOnChainWalletAddress = async function (z, bundle) {
     const cryptoCode = bundle.inputData.crypto_code;
     const storeId = bundle.inputData.store_id;
-    let forceGenerate = bundle.inputData.force_generate;
+    // Optional field: Zapier leaves it out when empty, which would otherwise send "undefined".
+    const forceGenerate = String(bundle.inputData.force_generate) === 'true';
 
     const options = {
-        url: bundle.authData.server_url + '/api/v1/stores/' + encodeURI(storeId) + '/payment-methods/OnChain/' + encodeURI(cryptoCode) + '/wallet/address?forceGenerate=' + encodeURI(forceGenerate),
+        url: bundle.authData.server_url + '/api/v1/stores/' + encodeURI(storeId) + '/payment-methods/' + encodeURI(CryptoCode.onChainPaymentMethodId(cryptoCode)) + '/wallet/address?forceGenerate=' + encodeURI(forceGenerate),
         method: 'GET',
         params: {}
     };
 
     let response = await z.request(options);
     if (response.status === 200) {
-        return response.json;
+        return response.data;
     } else if (response.status === 403) {
-        throw new z.errors.Error('Forbidden. Invoice could not be created.', 'Forbidden', response.status);
+        throw new z.errors.Error('Forbidden. Address could not be generated.', 'Forbidden', response.status);
     } else {
         let errorMsg = 'Error: ';
-        for (let i = 0; i < response.json.length; i++) {
-            errorMsg += response.json[i].message + ', ';
+        for (let i = 0; i < response.data.length; i++) {
+            errorMsg += response.data[i].message + ', ';
         }
         throw new z.errors.Error(errorMsg, 'InvalidData', response.status);
     }
@@ -61,6 +62,5 @@ module.exports = {
         label: 'Generate On-Chain Wallet Address',
         description: 'Generates a new address for a store wallet.',
         hidden: false,
-        important: false,
     },
 };

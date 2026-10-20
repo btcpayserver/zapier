@@ -25,7 +25,6 @@ module.exports = {
         label: 'Get Store Details',
         description: 'Finds a Store for a given ID and get the details.',
         hidden: false,
-        important: false,
     },
 
     operation: {

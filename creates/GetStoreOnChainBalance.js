@@ -6,7 +6,7 @@ const perform = async (z, bundle) => {
     const cryptoCode = bundle.inputData.crypto_code;
 
     const options = {
-        url: bundle.authData.server_url + '/api/v1/stores/' + encodeURI(storeId)+'/payment-methods/OnChain/'+encodeURI(cryptoCode)+'/wallet',
+        url: bundle.authData.server_url + '/api/v1/stores/' + encodeURI(storeId)+'/payment-methods/' + encodeURI(CryptoCode.onChainPaymentMethodId(cryptoCode)) + '/wallet',
         method: 'GET',
         params: {},
         body: {},
@@ -14,7 +14,7 @@ const perform = async (z, bundle) => {
 
     let response = await z.request(options);
     if (response.status === 200) {
-        let r = response.json;
+        let r = response.data;
 
         r.balance = Number(r.balance);
         r.unconfirmedBalance = Number(r.unconfirmedBalance);
@@ -34,7 +34,6 @@ module.exports = {
         label: 'Get Store On-Chain Wallet Balance',
         description: 'Get the balance of your On-Chain Store wallet.',
         hidden: false,
-        important: false,
     },
 
     operation: {

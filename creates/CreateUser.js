@@ -5,8 +5,9 @@ const createUser = async function (z, bundle) {
         z,
         bundle.authData.server_url,
         bundle.inputData.email,
-        bundle.inputData.password,
-        bundle.inputData.is_administrator
+        bundle.inputData.name,
+        bundle.inputData.is_administrator,
+        bundle.inputData.send_invitation_email
     );
 }
 
@@ -24,10 +25,10 @@ module.exports = {
                 altersDynamicFields: false,
             },
             {
-                key: 'password',
-                label: 'Password',
+                key: 'name',
+                label: 'Name',
                 type: 'string',
-                required: true,
+                required: false,
                 list: false,
                 altersDynamicFields: false,
             },
@@ -40,16 +41,29 @@ module.exports = {
                 list: false,
                 altersDynamicFields: false,
             },
+            {
+                key: 'send_invitation_email',
+                label: 'Send Invitation Email',
+                type: 'boolean',
+                helpText: 'Send the user an email to set a password. Needs email settings in BTCPay Server. Either way, the "Invitation URL" lets the user set a password. Defaults to "true".',
+                required: false,
+                list: false,
+                altersDynamicFields: false,
+            },
         ],
         sample: {
             "id": "abcdef",
             "email": "user@example.com",
+            "name": "Satoshi Nakamoto",
             "emailConfirmed": true,
             "requiresEmailConfirmation": true,
             "created": "2021-07-08T12:17:24.000Z",
             "roles": [
-                "admin"
-            ]
+                "ServerAdmin"
+            ],
+            "approved": true,
+            "disabled": false,
+            "invitationUrl": "https://mybtcpayserver.com/invite/abcdef/fd4c3a9aa8ff"
         },
         outputFields: User.outputFields,
     },
@@ -59,6 +73,5 @@ module.exports = {
         label: 'Create User',
         description: 'Creates a User',
         hidden: false,
-        important: false,
     },
 };

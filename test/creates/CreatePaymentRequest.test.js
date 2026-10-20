@@ -15,9 +15,8 @@ describe('creates.CreatePaymentRequest', () => {
             const amount = 5;
             const currencyCode = "EUR";
 
-            // TODO the unix timestamp does not work. Bug in BTCPay? Should be fixed via https://github.com/btcpayserver/btcpayserver/pull/3284 but we need to test this in BTCPay 1.4.0 or later.
-            //const expiryDateUnixTimestamp = Math.floor((new Date().getTime()) / 1000) + (30*24*60*60);
-            const expiryDateUnixTimestamp = null;
+            // Zapier gives a datetime field as an ISO 8601 string.
+            const expiryDate = new Date(Math.floor(Date.now() / 1000 + 30 * 24 * 60 * 60) * 1000).toISOString();
 
             const bundle = {
                 authData: {
@@ -32,9 +31,7 @@ describe('creates.CreatePaymentRequest', () => {
                     email: email,
                     amount: amount,
                     currency_code: currencyCode,
-                    expiry_date: expiryDateUnixTimestamp,
-                    embedded_css: "body: { background: red; }",
-                    custom_css_link: null,
+                    expiry_date: expiryDate,
                     allow_custom_payment_amounts: false,
                 },
             }
@@ -53,12 +50,9 @@ describe('creates.CreatePaymentRequest', () => {
             expect(result.archived).toBeFalsy();
             expect(result.currency).toBe(currencyCode);
 
-            // TODO check expiryDate in correct format
-            // expect(result.expiryDate).toBeDefined();
+            expect(result.expiryDate).toBe(expiryDate);
 
             expect(result.createdTime).toBeDefined();
-            expect(result.embeddedCSS).toBeDefined();
-            expect(result.customCSSLink).toBeDefined();
             expect(result.allowCustomPaymentAmounts).toBeDefined();
 
             //console.log("Created Payment Request ID " + result.id + " in store ID " + storeId);

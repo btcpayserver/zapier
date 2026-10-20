@@ -145,7 +145,7 @@ module.exports = {
             metadata: {},
             checkout: {
                 speedPolicy: 'MediumSpeed',
-                paymentMethods: ['BTC', 'BTC-LightningNetwork'],
+                paymentMethods: ['BTC-CHAIN', 'BTC-LN'],
                 expirationMinutes: 15,
                 monitoringMinutes: 60,
                 paymentTolerance: 0,
@@ -162,6 +162,5 @@ module.exports = {
         label: 'Create Invoice',
         description: 'Creates an Invoice',
         hidden: false,
-        important: true,
     },
 };

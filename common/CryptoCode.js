@@ -16,4 +16,9 @@ module.exports = {
             altersDynamicFields: false,
         }
     },
+
+    // BTCPay Server 2.x identifies the on-chain wallet by payment method ID, like "BTC-CHAIN".
+    onChainPaymentMethodId: function (cryptoCode) {
+        return String(cryptoCode).trim().toUpperCase() + '-CHAIN';
+    },
 }

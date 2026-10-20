@@ -8,7 +8,7 @@ describe('creates.invoice', () => {
     test(App.creates.CreateInvoice.key, async () => {
             const amount = 1 + Math.floor(Math.random() * 100);
             const currencyCode = 'EUR';
-            const orderId = process.env.ZAPIER_ORDER;
+            const orderId = process.env.ORDER_ID;
             const buyerName = 'Wouter';
             const redirectUrl = 'https://btcpayserver.org/';
 

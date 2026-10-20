@@ -1,4 +1,3 @@
-const Invoice = require('../common/Invoice');
 const Store = require('../common/Store');
 const Util = require('../common/Util');
 const PaymentRequest = require('../common/PaymentRequest');
@@ -17,22 +16,20 @@ const createPaymentRequest = async function (z, bundle) {
             currency: bundle.inputData.currency_code,
             email: bundle.inputData.email,
             description: bundle.inputData.description,
-            expiryDate: bundle.inputData.expiry_date,
-            embeddedCSS: bundle.inputData.embedded_css,
-            customCSSLink: bundle.inputData.custom_css_url,
+            expiryDate: PaymentRequest.toUnixTimestamp(z, bundle.inputData.expiry_date),
             allowCustomPaymentAmounts: bundle.inputData.allow_custom_payment_amounts,
         }
     };
 
     let response = await z.request(options);
     if (response.status === 200) {
-        return PaymentRequest.format(response.json);
+        return PaymentRequest.format(response.data);
     } else if (response.status === 403) {
-        throw new z.errors.Error('Forbidden. Invoice could not be created.', 'Forbidden', response.status);
+        throw new z.errors.Error('Forbidden. Payment request could not be created.', 'Forbidden', response.status);
     } else {
         let errorMsg = 'Error: ';
-        for (let i = 0; i < response.json.length; i++) {
-            errorMsg += response.json[i].message + ', ';
+        for (let i = 0; i < response.data.length; i++) {
+            errorMsg += response.data[i].message + ', ';
         }
         throw new z.errors.Error(errorMsg, 'InvalidData', response.status);
     }
@@ -72,20 +69,6 @@ module.exports = {
                 required: false,
             },
             {
-                key: 'embedded_css',
-                label: 'Embedded CSS',
-                helpText: "Custom CSS code for styling the payment request webpage.",
-                type: 'string',
-                required: false,
-            },
-            {
-                key: 'custom_css_url',
-                label: 'Custom CSS URL',
-                helpText: "URL to your custom CSS for styling the payment request webpage.",
-                type: 'string',
-                required: false,
-            },
-            {
                 key: 'allow_custom_payment_amounts',
                 label: 'Allow Custom Payment Amounts',
                 helpText: "Whether to allow users to create invoices that partially pay the payment request.",
@@ -95,7 +78,7 @@ module.exports = {
 
         ],
         sample: PaymentRequest.sample,
-        outputFields: Invoice.outputFields,
+        outputFields: PaymentRequest.outputFields,
     },
     key: 'CreatePaymentRequest',
     noun: PaymentRequest.noun,
@@ -103,6 +86,5 @@ module.exports = {
         label: 'Create Payment Request',
         description: 'Creates a Payment Request',
         hidden: false,
-        important: false,
     },
 };

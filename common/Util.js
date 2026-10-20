@@ -46,15 +46,6 @@ module.exports = {
             list: false,
             altersDynamicFields: false,
         },
-        payment_method: {
-            key: 'payment_method',
-            label: 'Payment Method',
-            type: 'string',
-            helpText: 'The payment method is a combination of crypto code + network. Example: BTC-OnChain or LTC-OnChain',
-            required: true,
-            list: false,
-            altersDynamicFields: false,
-        },
     },
 
     outputFields: {
@@ -106,25 +97,32 @@ module.exports = {
         };
 
         return z.request(options).then((response) => {
-            const results = response.json;
+            const results = response.data;
+            // Remember the store, so unsubscribe can delete the webhook from the right store.
+            results.storeId = bundle.inputData.store_id;
             // This data will be saved in "bundle.subscribeData" so it can be used during unsubscribe.
             return results;
         });
     },
 
     performUnsubscribe: function (z, bundle) {
-        // TODO is this unit tested?
-        const hookId = bundle.subscribeData.id
+        const hookId = bundle.subscribeData.id;
+        // Subscriptions made before version 2.0.0 did not save the storeId.
+        const storeId = bundle.subscribeData.storeId || bundle.inputData.store_id;
         const options = {
-            url: bundle.authData.server_url + '/api/v1/stores/' + bundle.authData.store_id + '/webhooks/' + encodeURI(hookId),
+            url: bundle.authData.server_url + '/api/v1/stores/' + encodeURI(storeId) + '/webhooks/' + encodeURI(hookId),
             method: 'DELETE',
             params: {},
             body: {},
+            skipThrowForStatus: true,
         };
 
         return z.request(options).then((response) => {
-            const results = response.json;
-            return results;
+            // The webhook may have been deleted in BTCPay Server already. Turning off the Zap should still work.
+            if (response.status !== 404) {
+                response.throwForStatus();
+            }
+            return response.data || {};
         });
     }
 }

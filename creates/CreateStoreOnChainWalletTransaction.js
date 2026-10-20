@@ -21,7 +21,7 @@ const createStoreOnChainWalletTransaction = async function (z, bundle) {
     }
 
     const options = {
-        url: bundle.authData.server_url + '/api/v1/stores/' + encodeURI(storeId) + '/payment-methods/OnChain/' + encodeURI(cryptoCode) + '/wallet/transactions',
+        url: bundle.authData.server_url + '/api/v1/stores/' + encodeURI(storeId) + '/payment-methods/' + encodeURI(CryptoCode.onChainPaymentMethodId(cryptoCode)) + '/wallet/transactions',
         method: 'POST',
         params: {},
         body: {
@@ -38,13 +38,13 @@ const createStoreOnChainWalletTransaction = async function (z, bundle) {
 
     let response = await z.request(options);
     if (response.status === 200) {
-        return response.json;
+        return response.data;
     } else if (response.status === 403) {
-        throw new z.errors.Error('Forbidden. Invoice could not be created.', 'Forbidden', response.status);
+        throw new z.errors.Error('Forbidden. Transaction could not be created.', 'Forbidden', response.status);
     } else {
         let errorMsg = 'Error: ';
-        for (let i = 0; i < response.json.length; i++) {
-            errorMsg += response.json[i].message + ', ';
+        for (let i = 0; i < response.data.length; i++) {
+            errorMsg += response.data[i].message + ', ';
         }
         throw new z.errors.Error(errorMsg, 'InvalidData', response.status);
     }
@@ -79,16 +79,22 @@ module.exports = {
             }
         ],
         sample: {
-            address: 'bc1qxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-            keyPath: '0/100',
-            paymentLink: 'bitcoin:bc1qxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+            transactionHash: 'c800383706ad20c8f27ea37f79624e5b9f2dfd732d457c3b170b8c94168bbacb',
+            comment: '',
+            labels: {},
+            amount: '-0.0001',
+            blockHash: null,
+            blockHeight: null,
+            confirmations: 0,
+            timestamp: 1625746644,
+            status: 'Unconfirmed',
         },
         outputFields: [
             {key: 'transactionHash', label: 'Transaction Hash', type: 'string'},
             {key: 'comment', label: 'Comment', type: 'string'},
             {key: 'amount', label: 'Amount', type: 'string'},
-            {key: 'blockHash', label: 'Amount', type: 'string'},
-            {key: 'blockHeight', label: 'Amount', type: 'integer'},
+            {key: 'blockHash', label: 'Block Hash', type: 'string'},
+            {key: 'blockHeight', label: 'Block Height', type: 'integer'},
             {key: 'confirmations', label: 'Confirmations', type: 'integer'},
             {key: 'timestamp', label: 'Timestamp', type: 'integer'},
             {key: 'status', label: 'Status', type: 'string'},
@@ -101,6 +107,5 @@ module.exports = {
         label: 'Create an On-Chain Transaction',
         description: 'Create an on-chain transaction from a store wallet to another address.',
         hidden: false,
-        important: true,
     },
 };

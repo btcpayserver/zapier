@@ -3,12 +3,13 @@ const Store = require('../common/Store');
 
 const perform = async (z, bundle) => {
     const response = await z.request({
-        url: bundle.authData.server_url + '/api/v1/stores/' + bundle.inputData.store_id + '/invoices',
-        params: {'orderId[]': bundle.inputData.order_id},
+        url: bundle.authData.server_url + '/api/v1/stores/' + encodeURI(bundle.inputData.store_id) + '/invoices',
+        // BTCPay Server ignores "orderId[]" and would return the newest invoice of any order.
+        params: {orderId: bundle.inputData.order_id},
     });
 
-    if (response.json.length > 0) {
-        return [Invoice.format(response.json[0], bundle.inputData.store_id)];
+    if (response.data.length > 0) {
+        return [Invoice.format(response.data[0], bundle.inputData.store_id)];
     } else {
         return [];
     }
@@ -24,7 +25,6 @@ module.exports = {
         label: 'Find Invoice by Order ID',
         description: 'Finds an Invoice for a given order.',
         hidden: false,
-        important: false,
     },
 
     operation: {
@@ -54,7 +54,7 @@ module.exports = {
             metadata: {},
             checkout: {
                 speedPolicy: 'MediumSpeed',
-                paymentMethods: ['BTC', 'BTC-LightningNetwork'],
+                paymentMethods: ['BTC-CHAIN', 'BTC-LN'],
                 expirationMinutes: 15,
                 monitoringMinutes: 60,
                 paymentTolerance: 0,

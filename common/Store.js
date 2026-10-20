@@ -11,9 +11,9 @@ module.exports = {
 
         let response = await z.request(options);
         if (response.status === 200) {
-            return this.format(response.json);
+            return this.format(response.data);
         } else {
-            throw new z.errors.Error('Invoice could not be found.', 'NotFound', 404);
+            throw new z.errors.Error('Store could not be found.', 'NotFound', 404);
         }
     },
 
@@ -47,7 +47,7 @@ module.exports = {
         };
 
         return z.request(options).then((response) => {
-            let results = response.json;
+            let results = response.data;
 
             for (let i = 0; i < results.length; i++) {
                 results[i] = module.exports.format(results[i]);

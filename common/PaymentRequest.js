@@ -11,8 +11,7 @@ module.exports = {
         "title": "Sample Payment Request",
         "description": "My Description",
         "email": "sample@example.com",
-        "embeddedCSS": "body: { background: red; }",
-        "customCSSLink": null,
+        "referenceId": null,
         "allowCustomPaymentAmounts": false,
         "createdTime": "2021-12-21T11:08:36.000Z"
     },
@@ -29,8 +28,7 @@ module.exports = {
         {key: 'archived', label: 'Is Achived', type: 'boolean'},
         {key: 'currency', label: 'Currency', type: 'string'},
         {key: 'expiryDate', label: 'Payment Request Expiry Date', type: 'datetime'},
-        {key: 'embeddedCSS', label: 'Embedded CSS code to be used on the payment page', type: 'string'},
-        {key: 'customCSSLink', label: 'An URL to external CSS code to be used on the payment page', type: 'string'},
+        {key: 'referenceId', label: 'Reference ID', type: 'string'},
         {key: 'allowCustomPaymentAmounts', label: 'Allow Custom Payment Amounts', type: 'boolean'},
     ],
 
@@ -38,14 +36,24 @@ module.exports = {
         data.amount = Number(data.amount);
 
         if(typeof data.createdTime === 'number') {
-            // Current BTCPay Server version
             data.createdTime = new Date(data.createdTime * 1000).toISOString();
-        }else if(typeof data.created === 'string') {
-            // In previous versions, the created timestamp field was called "created" and string instead of integer
-            data.createdTime = new Date(data.created).toISOString();
-            delete data['created'];
+        }
+        if(typeof data.expiryDate === 'number') {
+            data.expiryDate = new Date(data.expiryDate * 1000).toISOString();
         }
 
         return data;
+    },
+
+    // Zapier gives datetime fields as an ISO 8601 string, BTCPay Server wants a unix timestamp in seconds.
+    toUnixTimestamp: function (z, value) {
+        if (value === undefined || value === null || value === '') {
+            return null;
+        }
+        const time = new Date(value).getTime();
+        if (isNaN(time)) {
+            throw new z.errors.Error('The expiry date "' + value + '" is not a valid date.', 'InvalidData', 400);
+        }
+        return Math.floor(time / 1000);
     }
 }
